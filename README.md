@@ -1,0 +1,3 @@
+# fredhopper-data-model
+
+

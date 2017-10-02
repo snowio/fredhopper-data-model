@@ -1,0 +1,12 @@
+{
+    "name": "snowio/fredhopper-data-model",
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "files": ["src/functions.php"],
+        "psr-4": {
+            "SnowIO\\FredhopperDataModel\\": "src"
+        }
+    }
+}

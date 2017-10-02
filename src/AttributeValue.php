@@ -1,0 +1,56 @@
+<?php
+namespace SnowIO\FredhopperDataModel;
+
+class AttributeValue
+{
+    public static function of(string $attributeId, $value): self
+    {
+        validateId($attributeId);
+        $attributeValue = new self;
+        $attributeValue->attributeId = $attributeId;
+        $attributeValue->value = $value;
+        return $attributeValue;
+    }
+
+    public static function sanitizeId(string $valueId): string
+    {
+        return sanitizeId($valueId);
+    }
+
+    public function getAttributeId(): string
+    {
+        return $this->attributeId;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function withLocale(string $locale): self
+    {
+        $attributeValue = clone $this;
+        $attributeValue->locale = $locale;
+        return $attributeValue;
+    }
+
+    public function toJson(): array
+    {
+        return [
+            $this->attributeId => $this->value,
+        ];
+    }
+
+    private $attributeId;
+    private $value;
+    private $locale;
+
+    private function __construct()
+    {
+    }
+}
