@@ -43,6 +43,7 @@ class AttributeOptionTest extends TestCase
             '@timestamp' => 1506951117,
             'option_id' => 'red',
             'labels' => [
+                'en_GB' => 'Red',
                 'de_DE' => 'Rot',
                 'es_ES' => 'Rojo',
                 'fr_FR' => 'Rouge',
