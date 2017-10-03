@@ -28,7 +28,6 @@ class AttributeOptionTest extends TestCase
         self::assertEquals(null, $attributeOption->getLabel('es_US'));
     }
 
-
     public function testToJson()
     {
         $attributeOption = AttributeOption::of('red', [
