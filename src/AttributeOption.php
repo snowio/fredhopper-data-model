@@ -3,7 +3,7 @@ namespace SnowIO\FredhopperDataModel;
 
 class AttributeOption extends Entity
 {
-    public static function of(string $optionId, array $labels): self
+    public static function of(string $optionId, string $attributeId, array $labels): self
     {
         $attributeOption = new self;
         $attributeOption->optionId = $optionId;
@@ -14,6 +14,10 @@ class AttributeOption extends Entity
     public function getOptionId(): string
     {
         return $this->optionId;
+    }
+
+    public function getAttributeId(): string
+    {
     }
 
     public function getLabels(): array
