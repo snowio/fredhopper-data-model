@@ -5,6 +5,7 @@ class AttributeOption extends Entity
 {
     public static function of(string $optionId, string $attributeId, array $labels): self
     {
+        validateId($attributeId);
         $attributeOption = new self;
         $attributeOption->optionId = $optionId;
         $attributeOption->attributeId = $attributeId;
