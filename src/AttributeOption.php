@@ -7,6 +7,7 @@ class AttributeOption extends Entity
     {
         $attributeOption = new self;
         $attributeOption->optionId = $optionId;
+        $attributeOption->attributeId = $attributeId;
         $attributeOption->labels = $labels;
         return $attributeOption;
     }
@@ -18,6 +19,7 @@ class AttributeOption extends Entity
 
     public function getAttributeId(): string
     {
+        return $this->attributeId;
     }
 
     public function getLabels(): array
@@ -34,11 +36,13 @@ class AttributeOption extends Entity
     {
         $json = parent::toJson();
         $json['option_id'] = $this->optionId;
+        $json['attribute_id'] = $this->attributeId;
         $json['labels'] = $this->labels;
         return $json;
     }
 
     private $optionId;
+    private $attributeId;
     private $labels;
 
     private function __construct()
