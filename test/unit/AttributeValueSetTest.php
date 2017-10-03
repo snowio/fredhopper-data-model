@@ -21,5 +21,4 @@ class AttributeValueSetTest extends \PHPUnit\Framework\TestCase
         self::assertCount(5, iterator_to_array($colors));
         self::assertEquals($colorArray, iterator_to_array($colors));
     }
-
 }

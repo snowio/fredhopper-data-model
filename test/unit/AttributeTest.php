@@ -1,5 +1,6 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Test;
+
 use Exception;
 use SnowIO\FredhopperDataModel\Attribute;
 
