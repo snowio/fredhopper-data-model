@@ -8,7 +8,7 @@ class AttributeOptionTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $attributeOption = AttributeOption::of('red', [
+        $attributeOption = AttributeOption::of('red', 'color',[
                 'de_DE' => 'Rot',
                 'es_ES' => 'Rojo',
                 'fr_FR' => 'Rouge',
@@ -18,6 +18,7 @@ class AttributeOptionTest extends TestCase
 
         self::assertEquals(1506951117, $attributeOption->getTimestamp());
         self::assertEquals('red', $attributeOption->getOptionId());
+        self::assertEquals('color', $attributeOption->getAttributeId());
         self::assertEquals('Red', $attributeOption->getLabel('en_GB'));
         self::assertEquals([
             'en_GB' => 'Red',
@@ -30,7 +31,7 @@ class AttributeOptionTest extends TestCase
 
     public function testToJson()
     {
-        $attributeOption = AttributeOption::of('red', [
+        $attributeOption = AttributeOption::of('red', 'color', [
             'en_GB' => 'Red',
             'de_DE' => 'Rot',
             'es_ES' => 'Rojo',
@@ -41,6 +42,7 @@ class AttributeOptionTest extends TestCase
         self::assertEquals([
             '@timestamp' => 1506951117,
             'option_id' => 'red',
+            'attribute_id' => 'color',
             'labels' => [
                 'en_GB' => 'Red',
                 'de_DE' => 'Rot',
