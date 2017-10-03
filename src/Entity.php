@@ -21,13 +21,9 @@ abstract class Entity
 
     public function toJson(): array
     {
-        if ($this->timestamp) {
-            return [
-                '@timestamp' => $this->timestamp,
-            ];
-        }
-
-        return [];
+        return [
+            '@timestamp' => $this->timestamp,
+        ];
     }
 
     private $timestamp = 0;
