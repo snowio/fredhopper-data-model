@@ -11,11 +11,12 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $category = Category::of('category01', [
             'en_GB' => 'Category 01',
             'fr_FR' => 'Catégorie 01',
-        ]);
+        ])->withTimestamp(1506951117);
 
         self::assertEquals('category01', $category->getId());
         self::assertEquals(null, $category->getName('de_DE'));
         self::assertEquals(null, $category->getParentId());
+        self::assertEquals(1506951117, $category->getTimestamp());
         self::assertEquals([
             'en_GB' => 'Category 01',
             'fr_FR' => 'Catégorie 01',

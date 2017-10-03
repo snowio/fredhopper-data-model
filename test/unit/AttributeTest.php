@@ -15,10 +15,11 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
                 'en_GB' => 'Color',
                 'fr_Fr' => 'Couleur',
             ]
-        );
+        )->withTimestamp(1506951117);
 
         self::assertEquals('colour', $attribute->getId());
         self::assertEquals('list', $attribute->getType());
+        self::assertEquals(1506951117, $attribute->getTimestamp());
         self::assertEquals([
             'en_GB' => 'Color',
             'fr_Fr' => 'Couleur',

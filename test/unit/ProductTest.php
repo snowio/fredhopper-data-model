@@ -11,9 +11,15 @@ class ProductTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $product = Product::of('an_v2783', ['books', 'fiction', 'sci_fi',]);
+        $attributeValue = AttributeValue::of('no_of_pages', 33);
+        $attributeValueSet = AttributeValueSet::of([$attributeValue]);
+        $product = Product::of('an_v2783', ['books', 'fiction', 'sci_fi',])
+            ->withAttributeValues($attributeValueSet)
+            ->withTimestamp(1506951117);
         self::assertEquals('an_v2783', $product->getProductId());
         self::assertEquals(['books', 'fiction', 'sci_fi',], $product->getCategoryIds());
+        self::assertEquals(1506951117, $product->getTimestamp());
+        self::assertEquals([$attributeValue], iterator_to_array($product->getAttributeValues()));
     }
 
     /**
