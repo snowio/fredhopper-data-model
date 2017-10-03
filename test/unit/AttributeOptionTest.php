@@ -1,6 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Test;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeOption;
 
@@ -27,6 +28,20 @@ class AttributeOptionTest extends TestCase
             'fr_FR' => 'Rouge',
         ], $attributeOption->getLabels());
         self::assertEquals(null, $attributeOption->getLabel('es_US'));
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Invalid Id
+     */
+    public function testInvalidAttributeId()
+    {
+        AttributeOption::of('red', '**color__&', [
+            'en_GB' => 'Red',
+            'de_DE' => 'Rot',
+            'es_ES' => 'Rojo',
+            'fr_FR' => 'Rouge',
+        ]);
     }
 
     public function testToJson()
