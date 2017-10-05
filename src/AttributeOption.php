@@ -1,21 +1,19 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use function SnowIO\FredhopperDataModel\Internal\validateId;
+use function SnowIO\FredhopperDataModel\Internal\validateLocale;
+
 class AttributeOption extends Entity
 {
-    public static function of(string $optionId, string $attributeId, array $labels): self
+    public static function of(string $attributeId, string $valueId): self
     {
         validateId($attributeId);
+        validateId($valueId);
         $attributeOption = new self;
-        $attributeOption->optionId = $optionId;
         $attributeOption->attributeId = $attributeId;
-        $attributeOption->labels = $labels;
+        $attributeOption->valueId = $valueId;
         return $attributeOption;
-    }
-
-    public function getOptionId(): string
-    {
-        return $this->optionId;
     }
 
     public function getAttributeId(): string
@@ -23,28 +21,51 @@ class AttributeOption extends Entity
         return $this->attributeId;
     }
 
-    public function getLabels(): array
+    public function getValueId(): string
     {
-        return $this->labels;
+        return $this->valueId;
     }
 
-    public function getLabel($locale): ?string
+    public function withDisplayValues(array $displayValues): self
     {
-        return $this->labels[$locale] ?? null;
+        foreach ($displayValues as $locale => $displayValue) {
+            validateLocale($locale);
+        }
+        $attributeOption = clone $this;
+        $attributeOption->displayValues = $displayValues;
+        return $attributeOption;
+    }
+
+    public function withDisplayValue(string $displayValue, string $locale): self
+    {
+        validateLocale($locale);
+        $attributeOption = clone $this;
+        $attributeOption->displayValues += [$locale => $displayValue];
+        return $attributeOption;
+    }
+
+    public function getDisplayValues(): array
+    {
+        return $this->displayValues ?? [];
+    }
+
+    public function getDisplayValue($locale): ?string
+    {
+        return $this->displayValues[$locale] ?? null;
     }
 
     public function toJson(): array
     {
         $json = parent::toJson();
-        $json['option_id'] = $this->optionId;
+        $json['value_id'] = $this->valueId;
         $json['attribute_id'] = $this->attributeId;
-        $json['labels'] = $this->labels;
+        $json['display_values'] = $this->displayValues;
         return $json;
     }
 
-    private $optionId;
+    private $valueId;
     private $attributeId;
-    private $labels;
+    private $displayValues;
 
     private function __construct()
     {
