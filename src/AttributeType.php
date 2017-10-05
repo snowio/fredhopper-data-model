@@ -17,7 +17,6 @@ final class AttributeType
         self::SET,
     ];
 
-
     public static function validateType(string $type)
     {
         $all = self::ALL;
