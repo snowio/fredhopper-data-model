@@ -1,16 +1,20 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
+use function SnowIO\FredhopperDataModel\Internal\validateId;
+
 abstract class Item extends Entity
 {
-    public static function sanitizeId(string $productId): string
+
+    public static function sanitizeId(string $id): string
     {
-        return sanitizeId($productId);
+        return sanitizeId($id);
     }
 
-    public function getProductId(): string
+    public function getId(): string
     {
-        return $this->productId;
+        return $this->id;
     }
 
     public function getAttributeValues(): AttributeValueSet
@@ -33,18 +37,17 @@ abstract class Item extends Entity
         foreach ($this->attributeValues as $attributeValue) {
             $attributeValues += $attributeValue->toJson();
         }
-        $json['product_id'] = $this->productId;
         $json['attribute_values'] = $attributeValues;
         return $json;
     }
 
-    private $productId;
+    private $id;
     private $attributeValues;
 
-    protected function __construct(string $productId)
+    protected function __construct(string $id)
     {
-        validateId($productId);
-        $this->productId = $productId;
+        validateId($id);
+        $this->id = $id;
         $this->attributeValues = AttributeValueSet::of([]);
     }
 }
