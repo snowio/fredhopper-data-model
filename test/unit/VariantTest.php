@@ -15,7 +15,7 @@ class VariantTest extends TestCase
         $variant = Variant::of('acme_red_wool_socks', 'acme_wool_socks')
             ->withTimestamp(1506951117)
             ->withAttributeValues($attributeValueSet);
-        self::assertEquals('acme_red_wool_socks', $variant->getVariantId());
+        self::assertEquals('acme_red_wool_socks', $variant->getId());
         self::assertEquals('acme_wool_socks', $variant->getProductId());
         self::assertEquals([$attributeValue], iterator_to_array($variant->getAttributeValues()));
         self::assertEquals(1506951117, $variant->getTimestamp());
