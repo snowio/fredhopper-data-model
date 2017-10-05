@@ -9,25 +9,26 @@ class AttributeOptionTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $attributeOption = AttributeOption::of('red', 'color',[
+        $attributeOption = AttributeOption::of('color', 'red')
+            ->withDisplayValues([
+                'en_GB' => 'Red',
                 'de_DE' => 'Rot',
                 'es_ES' => 'Rojo',
                 'fr_FR' => 'Rouge',
-                'en_GB' => 'Red',
-            ])
+            ])->withDisplayValue('Rouge', 'fr_FR')
             ->withTimestamp(1506951117);
 
         self::assertEquals(1506951117, $attributeOption->getTimestamp());
-        self::assertEquals('red', $attributeOption->getOptionId());
+        self::assertEquals('red', $attributeOption->getValueId());
         self::assertEquals('color', $attributeOption->getAttributeId());
-        self::assertEquals('Red', $attributeOption->getLabel('en_GB'));
+        self::assertEquals('Red', $attributeOption->getDisplayValue('en_GB'));
         self::assertEquals([
             'en_GB' => 'Red',
             'de_DE' => 'Rot',
             'es_ES' => 'Rojo',
             'fr_FR' => 'Rouge',
-        ], $attributeOption->getLabels());
-        self::assertEquals(null, $attributeOption->getLabel('es_US'));
+        ], $attributeOption->getDisplayValues());
+        self::assertEquals(null, $attributeOption->getDisplayValue('es_US'));
     }
 
     /**
@@ -36,29 +37,25 @@ class AttributeOptionTest extends TestCase
      */
     public function testInvalidAttributeId()
     {
-        AttributeOption::of('red', '**color__&', [
-            'en_GB' => 'Red',
-            'de_DE' => 'Rot',
-            'es_ES' => 'Rojo',
-            'fr_FR' => 'Rouge',
-        ]);
+        AttributeOption::of('**color__&', 'red');
     }
 
     public function testToJson()
     {
-        $attributeOption = AttributeOption::of('red', 'color', [
-            'en_GB' => 'Red',
-            'de_DE' => 'Rot',
-            'es_ES' => 'Rojo',
-            'fr_FR' => 'Rouge',
-        ])
+        $attributeOption = AttributeOption::of('color', 'red')
+            ->withDisplayValues([
+                'en_GB' => 'Red',
+                'de_DE' => 'Rot',
+                'es_ES' => 'Rojo',
+                'fr_FR' => 'Rouge',
+            ])
             ->withTimestamp(1506951117);
 
         self::assertEquals([
             '@timestamp' => 1506951117,
-            'option_id' => 'red',
+            'value_id' => 'red',
             'attribute_id' => 'color',
-            'labels' => [
+            'display_values' => [
                 'en_GB' => 'Red',
                 'de_DE' => 'Rot',
                 'es_ES' => 'Rojo',
