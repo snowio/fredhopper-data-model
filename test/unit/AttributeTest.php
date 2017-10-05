@@ -44,6 +44,22 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Invalid Type
+     */
+    public function testInvalidAttributeType()
+    {
+        Attribute::of(
+            'colour',
+            'object',
+            [
+                'en_GB' => 'Color',
+                'fr_FR' => 'Couleur',
+            ]
+        );
+    }
+
     public function testToJson()
     {
         $attribute = Attribute::of(
