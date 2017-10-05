@@ -4,7 +4,7 @@
         "phpunit/phpunit": "^5.7"
     },
     "autoload": {
-        "files": ["src/functions.php"],
+        "files": ["src/internal/functions.php"],
         "psr-4": {
             "SnowIO\\FredhopperDataModel\\": "src"
         }
