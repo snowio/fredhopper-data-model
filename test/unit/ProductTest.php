@@ -16,7 +16,7 @@ class ProductTest extends TestCase
         $product = Product::of('an_v2783', ['books', 'fiction', 'sci_fi',])
             ->withAttributeValues($attributeValueSet)
             ->withTimestamp(1506951117);
-        self::assertEquals('an_v2783', $product->getProductId());
+        self::assertEquals('an_v2783', $product->getId());
         self::assertEquals(['books', 'fiction', 'sci_fi',], $product->getCategoryIds());
         self::assertEquals(1506951117, $product->getTimestamp());
         self::assertEquals([$attributeValue], iterator_to_array($product->getAttributeValues()));
