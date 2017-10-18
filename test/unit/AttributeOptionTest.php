@@ -15,7 +15,7 @@ class AttributeOptionTest extends TestCase
                 'de_DE' => 'Rot',
                 'es_ES' => 'Rojo',
                 'fr_FR' => 'Rouge',
-            ])->withDisplayValue('Rouge', 'fr_FR')
+            ])->withDisplayValue('Rougee', 'fr_FR')
             ->withTimestamp(1506951117);
 
         self::assertEquals(1506951117, $attributeOption->getTimestamp());
@@ -26,7 +26,7 @@ class AttributeOptionTest extends TestCase
             'en_GB' => 'Red',
             'de_DE' => 'Rot',
             'es_ES' => 'Rojo',
-            'fr_FR' => 'Rouge',
+            'fr_FR' => 'Rougee',
         ], $attributeOption->getDisplayValues());
         self::assertEquals(null, $attributeOption->getDisplayValue('es_US'));
     }
@@ -62,5 +62,14 @@ class AttributeOptionTest extends TestCase
                 'fr_FR' => 'Rouge',
             ],
         ], $attributeOption->toJson());
+    }
+
+    public function testChangeDisplayValue()
+    {
+        $option = AttributeOption::of('color', 'red')
+            ->withDisplayValue('Red', 'en_GB')
+            ->withDisplayValue('Red!', 'en_GB');
+
+        self::assertSame('Red!', $option->getDisplayValue('en_GB'));
     }
 }

@@ -40,7 +40,7 @@ class AttributeOption extends Entity
     {
         validateLocale($locale);
         $attributeOption = clone $this;
-        $attributeOption->displayValues += [$locale => $displayValue];
+        $attributeOption->displayValues[$locale] = $displayValue;
         return $attributeOption;
     }
 
@@ -65,7 +65,7 @@ class AttributeOption extends Entity
 
     private $valueId;
     private $attributeId;
-    private $displayValues;
+    private $displayValues = [];
 
     private function __construct()
     {
