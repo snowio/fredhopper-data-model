@@ -17,10 +17,14 @@ final class AttributeType
         self::SET,
     ];
 
+    public static function isValid(string $type): bool
+    {
+        return \in_array($type, self::ALL);
+    }
+
     public static function validate(string $type): void
     {
-        $all = self::ALL;
-        if (!in_array($type, $all)) {
+        if (!\in_array($type, self::ALL)) {
             throw new \Exception('Invalid Type');
         }
     }
