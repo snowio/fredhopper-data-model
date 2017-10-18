@@ -2,7 +2,6 @@
 namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\validateId;
-use function SnowIO\FredhopperDataModel\Internal\validateLocale;
 
 class AttributeOption extends Entity
 {
@@ -29,7 +28,7 @@ class AttributeOption extends Entity
     public function withDisplayValues(array $displayValues): self
     {
         foreach ($displayValues as $locale => $displayValue) {
-            validateLocale($locale);
+            Locale::validate($locale);
         }
         $attributeOption = clone $this;
         $attributeOption->displayValues = $displayValues;
@@ -38,7 +37,7 @@ class AttributeOption extends Entity
 
     public function withDisplayValue(string $displayValue, string $locale): self
     {
-        validateLocale($locale);
+        Locale::validate($locale);
         $attributeOption = clone $this;
         $attributeOption->displayValues[$locale] = $displayValue;
         return $attributeOption;

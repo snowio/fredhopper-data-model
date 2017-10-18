@@ -1,15 +1,13 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-use function SnowIO\FredhopperDataModel\Internal\validateLocale;
-
 class Category extends Entity
 {
     public static function of(string $id, array $names): self
     {
         self::validateId($id);
         foreach ($names as $locale => $name) {
-            validateLocale($locale);
+            Locale::validate($locale);
         }
         $category = new self;
         $category->id = $id;
@@ -43,7 +41,7 @@ class Category extends Entity
 
     public function getName(string $locale): ?string
     {
-        validateLocale($locale);
+        Locale::validate($locale);
         return $this->names[$locale] ?? null;
     }
 

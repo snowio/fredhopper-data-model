@@ -3,7 +3,6 @@ namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
-use function SnowIO\FredhopperDataModel\Internal\validateLocale;
 
 class AttributeValue
 {
@@ -38,7 +37,7 @@ class AttributeValue
 
     public function withLocale(string $locale): self
     {
-        validateLocale($locale);
+        Locale::validate($locale);
         $attributeValue = clone $this;
         $attributeValue->locale = $locale;
         return $attributeValue;

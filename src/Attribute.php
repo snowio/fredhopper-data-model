@@ -3,7 +3,6 @@ namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
-use function SnowIO\FredhopperDataModel\Internal\validateLocale;
 
 class Attribute extends Entity
 {
@@ -12,7 +11,7 @@ class Attribute extends Entity
         validateId($id);
         AttributeType::validate($type);
         foreach ($names as $locale => $name) {
-            validateLocale($locale);
+            Locale::validate($locale);
         }
         $attribute = new self;
         $attribute->id = $id;
