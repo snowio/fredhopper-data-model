@@ -5,9 +5,9 @@ class Product extends Item
 {
     public static function of(string $id, array $categoryIds): self
     {
-        array_map(function (string $categoryId) {
+        foreach ($categoryIds as $categoryId) {
             Category::validateId($categoryId);
-        }, $categoryIds);
+        }
         $product = new self($id);
         $product->categoryIds = $categoryIds;
         return $product;
