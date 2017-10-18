@@ -5,34 +5,59 @@ class AttributeValueSet implements \IteratorAggregate
 {
     public static function of(array $attributeValues): self
     {
-        return new self($attributeValues);
+        $attributeValuesWithKeys = [];
+        foreach ($attributeValues as $attributeValue) {
+            $key = self::getKey($attributeValue);
+            if (isset($attributeValuesWithKeys[$key])) {
+                throw new \Error;
+            }
+            $attributeValuesWithKeys[$key] = $attributeValue;
+        }
+        return new self($attributeValuesWithKeys);
     }
 
     public function withAttributeValue(AttributeValue $attributeValue): self
     {
-        $attributeValueSet = clone $this;
-        $attributeValueSet->attributeValues[] = $attributeValue;
-        return $attributeValueSet;
+        $result = clone $this;
+        $key = self::getKey($attributeValue);
+        $result->attributeValues[$key] = $attributeValue;
+        return $result;
     }
 
-    public function add(self $attributeValueSet): self
+    public function add(self $otherSet): self
     {
-        $getId = function (AttributeValue $attributeValue) {
-            return $attributeValue->getAttributeId();
-        };
+        if ($otherSet->overlaps($this)) {
+            throw new \Error;
+        }
+        $mergedValues = \array_merge($this->attributeValues, $otherSet->attributeValues);
+        return new self($mergedValues);
+    }
 
-        $inputValues = array_map($getId, $attributeValueSet->attributeValues);
-        $values = array_map($getId, $this->attributeValues);
+    public function overlaps(AttributeValueSet $otherSet): bool
+    {
+        return !empty(\array_intersect_key($this->attributeValues, $otherSet->attributeValues))
+            || !empty(\array_intersect_key($otherSet->attributeValues, $this->attributeValues));
+    }
 
-        if (
-            \array_intersect($values, $inputValues) !== []
-            || \array_intersect($inputValues, $values) !== []
-        ) {
-            throw new \Exception();
+    public function equals($object): bool
+    {
+        if (!$object instanceof self || \count($object->attributeValues) != \count($this->attributeValues)) {
+            return false;
         }
 
-        $mergedValues = \array_merge($this->attributeValues, $attributeValueSet->attributeValues);
-        return new self($mergedValues);
+        foreach ($this->attributeValues as $attributeValueId => $attributeValue) {
+            $otherAttributeValue = $object->attributeValues[$attributeValueId] ?? null;
+            if (!$attributeValue->equals($otherAttributeValue)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function toArray(): array
+    {
+        return \array_values($this->attributeValues);
     }
 
     public function getIterator(): \Iterator
@@ -42,10 +67,16 @@ class AttributeValueSet implements \IteratorAggregate
         }
     }
 
+    /** @var AttributeValue[] */
     private $attributeValues;
 
     private function __construct(array $attributeValues)
     {
         $this->attributeValues = $attributeValues;
+    }
+
+    private static function getKey(AttributeValue $attributeValue): string
+    {
+        return "{$attributeValue->getAttributeId()}-{$attributeValue->getLocale()}";
     }
 }
