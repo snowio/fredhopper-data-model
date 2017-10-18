@@ -1,13 +1,11 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-use function SnowIO\FredhopperDataModel\Internal\validateId;
-
 class Variant extends Item
 {
     public static function of(string $id, string $productId): self
     {
-        validateId($productId);
+        Product::validateId($productId);
         $variant = new self($id);
         $variant->productId = $productId;
         return $variant;

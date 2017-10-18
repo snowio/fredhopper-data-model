@@ -48,8 +48,9 @@ class AttributeOption extends Entity
         return $this->displayValues ?? [];
     }
 
-    public function getDisplayValue($locale): ?string
+    public function getDisplayValue(string $locale): ?string
     {
+        Locale::validate($locale);
         return $this->displayValues[$locale] ?? null;
     }
 

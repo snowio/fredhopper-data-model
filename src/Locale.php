@@ -117,14 +117,14 @@ final class Locale
         'vi_VN',
     ];
 
-    public static function isValid(string $type): bool
+    public static function isValid(string $locale): bool
     {
-        return \in_array($type, self::ALL);
+        return \in_array($locale, self::ALL);
     }
 
-    public static function validate(string $type): void
+    public static function validate(string $locale): void
     {
-        if (!\in_array($type, self::ALL)) {
+        if (!\in_array($locale, self::ALL)) {
             throw new \Exception('Invalid Locale');
         }
     }

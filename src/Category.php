@@ -22,7 +22,7 @@ class Category extends Entity
         return $id;
     }
 
-    public static function validateId($id)
+    public static function validateId(string $id): void
     {
         if (!\preg_match('{^[a-z][a-z0-9_]+$}', $id)) {
             throw new \Exception('Invalid Id');

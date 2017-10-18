@@ -11,6 +11,11 @@ abstract class Item extends Entity
         return sanitizeId($id);
     }
 
+    public static function validateId(string $id): void
+    {
+        validateId($id);
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -45,7 +50,7 @@ abstract class Item extends Entity
 
     protected function __construct(string $id)
     {
-        validateId($id);
+        self::validateId($id);
         $this->id = $id;
         $this->attributeValues = AttributeValueSet::of([]);
     }
