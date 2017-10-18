@@ -14,7 +14,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'list',
             [
                 'en_GB' => 'Color',
-                'fr_Fr' => 'Couleur',
+                'fr_FR' => 'Couleur',
             ]
         )->withTimestamp(1506951117);
 
@@ -23,7 +23,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1506951117, $attribute->getTimestamp());
         self::assertEquals([
             'en_GB' => 'Color',
-            'fr_Fr' => 'Couleur',
+            'fr_FR' => 'Couleur',
         ], $attribute->getNames());
         self::assertEquals(null, $attribute->getName('en_DE'));
     }
@@ -39,6 +39,38 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'list',
             [
                 'en_GB' => 'Color',
+                'fr_FR' => 'Couleur',
+            ]
+        );
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Invalid Type
+     */
+    public function testInvalidAttributeType()
+    {
+        Attribute::of(
+            'colour',
+            'object',
+            [
+                'en_GB' => 'Color',
+                'fr_FR' => 'Couleur',
+            ]
+        );
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Invalid Locale
+     */
+    public function testInvalidAttributeLocale()
+    {
+        Attribute::of(
+            'colour',
+            'list',
+            [
+                'en_GB' => 'Color',
                 'fr_Fr' => 'Couleur',
             ]
         );
@@ -51,7 +83,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'list',
             [
                 'en_GB' => 'Color',
-                'fr_Fr' => 'Couleur',
+                'fr_FR' => 'Couleur',
             ]
         );
 
@@ -62,7 +94,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'type' => 'list',
             'names' => [
                 'en_GB' => 'Color',
-                'fr_Fr' => 'Couleur',
+                'fr_FR' => 'Couleur',
             ]
         ], $attribute->toJson());
     }

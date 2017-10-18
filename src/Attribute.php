@@ -1,11 +1,19 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
+use function SnowIO\FredhopperDataModel\Internal\validateId;
+use function SnowIO\FredhopperDataModel\Internal\validateLocale;
+
 class Attribute extends Entity
 {
     public static function of(string $id, string $type, array $names): self
     {
         validateId($id);
+        AttributeType::validateType($type);
+        foreach ($names as $locale => $name) {
+            validateLocale($locale);
+        }
         $attribute = new self;
         $attribute->id = $id;
         $attribute->type = $type;

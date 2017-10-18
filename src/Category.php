@@ -1,11 +1,16 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use function SnowIO\FredhopperDataModel\Internal\validateLocale;
+
 class Category extends Entity
 {
     public static function of(string $id, array $names): self
     {
-        self::validateCategoryId($id);
+        self::validateId($id);
+        foreach ($names as $locale => $name) {
+            validateLocale($locale);
+        }
         $category = new self;
         $category->id = $id;
         $category->names = $names;
@@ -14,13 +19,12 @@ class Category extends Entity
 
     public static function sanitizeId(string $id): string
     {
-
         $id = \strtolower($id);
         $id = \preg_replace('/[^a-z0-9]/', '', $id);
         return $id;
     }
 
-    public static function validateCategoryId($id)
+    public static function validateId($id)
     {
         if (!\preg_match('{^[a-z][a-z0-9_]+$}', $id)) {
             throw new \Exception('Invalid Id');
@@ -39,6 +43,7 @@ class Category extends Entity
 
     public function getName(string $locale): ?string
     {
+        validateLocale($locale);
         return $this->names[$locale] ?? null;
     }
 
@@ -49,7 +54,7 @@ class Category extends Entity
 
     public function withParent(string $parentId): self
     {
-        self::validateCategoryId($parentId);
+        self::validateId($parentId);
         $category = clone $this;
         $category->parentId = $parentId;
         return $category;
@@ -70,6 +75,5 @@ class Category extends Entity
 
     private function __construct()
     {
-
     }
 }
