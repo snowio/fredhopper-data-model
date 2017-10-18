@@ -5,9 +5,7 @@ class AttributeValueSet implements \IteratorAggregate
 {
     public static function of(array $attributeValues): self
     {
-        $attributeValueSet = new self;
-        $attributeValueSet->attributeValues = $attributeValues;
-        return $attributeValueSet;
+        return new self($attributeValues);
     }
 
     public function withAttributeValue(AttributeValue $attributeValue): self
@@ -19,9 +17,16 @@ class AttributeValueSet implements \IteratorAggregate
 
     public function add(self $attributeValueSet): self
     {
+        $getId = function (AttributeValue $attributeValue) {
+            return $attributeValue->getAttributeId();
+        };
+
+        $inputValues = array_map($getId, $attributeValueSet->attributeValues);
+        $values = array_map($getId, $this->attributeValues);
+
         if (
-            \array_intersect_key($this->attributeValues, $attributeValueSet->attributeValues) !== []
-            || \array_intersect_key($attributeValueSet->attributeValues, $this->attributeValues) !== []
+            \array_intersect($values, $inputValues) !== []
+            || \array_intersect($inputValues, $values) !== []
         ) {
             throw new \Exception();
         }
@@ -39,8 +44,8 @@ class AttributeValueSet implements \IteratorAggregate
 
     private $attributeValues;
 
-    private function __construct()
+    private function __construct(array $attributeValues)
     {
-
+        $this->attributeValues = $attributeValues;
     }
 }
