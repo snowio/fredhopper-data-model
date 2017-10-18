@@ -43,6 +43,14 @@ class AttributeValue
         return $attributeValue;
     }
 
+    public function equals($object): bool
+    {
+        return $object instanceof self
+            && $object->attributeId === $this->attributeId
+            && $object->value === $this->value
+            && $object->locale === $this->locale;
+    }
+
     public function toJson(): array
     {
         return [
