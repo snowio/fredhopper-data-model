@@ -17,6 +17,19 @@ class AttributeValueSet implements \IteratorAggregate
         return $attributeValueSet;
     }
 
+    public function add(self $attributeValueSet): self
+    {
+        if (
+            \array_intersect_key($this->attributeValues, $attributeValueSet->attributeValues) !== []
+            || \array_intersect_key($attributeValueSet->attributeValues, $this->attributeValues) !== []
+        ) {
+            throw new \Exception();
+        }
+
+        $mergedValues = \array_merge($this->attributeValues, $attributeValueSet->attributeValues);
+        return new self($mergedValues);
+    }
+
     public function getIterator(): \Iterator
     {
         foreach ($this->attributeValues as $attributeValue) {
