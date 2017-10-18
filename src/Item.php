@@ -6,7 +6,6 @@ use function SnowIO\FredhopperDataModel\Internal\validateId;
 
 abstract class Item extends Entity
 {
-
     public static function sanitizeId(string $id): string
     {
         return sanitizeId($id);
