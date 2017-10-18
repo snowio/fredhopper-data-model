@@ -10,7 +10,7 @@ class Attribute extends Entity
     public static function of(string $id, string $type, array $names): self
     {
         validateId($id);
-        AttributeType::validateType($type);
+        AttributeType::validate($type);
         foreach ($names as $locale => $name) {
             validateLocale($locale);
         }

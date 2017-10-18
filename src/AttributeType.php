@@ -17,7 +17,7 @@ final class AttributeType
         self::SET,
     ];
 
-    public static function validateType(string $type)
+    public static function validate(string $type): void
     {
         $all = self::ALL;
         if (!in_array($type, $all)) {
