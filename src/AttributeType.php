@@ -8,6 +8,7 @@ final class AttributeType
     const TEXT = 'text';
     const LIST = 'list';
     const SET = 'set';
+    const ASSET = 'asset';
 
     const ALL = [
         self::FLOAT,
@@ -15,6 +16,7 @@ final class AttributeType
         self::TEXT,
         self::LIST,
         self::SET,
+        self::ASSET,
     ];
 
     public static function isValid(string $type): bool
