@@ -23,14 +23,6 @@ class AttributeValueTest extends \PHPUnit\Framework\TestCase
         AttributeValue::of('c%o*lour', 'Rose');
     }
 
-    public function testToJson()
-    {
-        $attributeValue = AttributeValue::of('colour', 'Rot')->withLocale('de_DE');
-        self::assertEquals([
-            'colour' => 'Rot'
-        ], $attributeValue->toJson());
-    }
-
     public function testSanitization()
     {
         $sanitizedValueId = AttributeValue::sanitizeId('red$');

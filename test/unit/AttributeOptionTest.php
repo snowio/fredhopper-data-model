@@ -18,10 +18,8 @@ class AttributeOptionTest extends TestCase
             ->withValue('Rouge', 'fr_FR');
         $option = AttributeOption::of('color', 'red')
             ->withDisplayValues($displayValues)
-            ->withDisplayValue(LocalizedString::of('Rougee', 'fr_FR'))
-            ->withTimestamp(1506951117);
+            ->withDisplayValue(LocalizedString::of('Rougee', 'fr_FR'));
 
-        self::assertSame(1506951117, $option->getTimestamp());
         self::assertSame('red', $option->getValueId());
         self::assertSame('color', $option->getAttributeId());
         self::assertSame('Red', $option->getDisplayValue('en_GB'));
@@ -46,11 +44,9 @@ class AttributeOptionTest extends TestCase
             ->withValue('Rojo', 'es_ES')
             ->withValue('Rouge', 'fr_FR');
         $attributeOption = AttributeOption::of('color', 'red')
-            ->withDisplayValues($displayValues)
-            ->withTimestamp(1506951117);
+            ->withDisplayValues($displayValues);
 
         self::assertEquals([
-            '@timestamp' => 1506951117,
             'value_id' => 'red',
             'attribute_id' => 'color',
             'display_values' => [

@@ -12,12 +12,11 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $categoryNames = LocalizedStringSet::create()
             ->withValue('Category 01', 'en_GB')
             ->withValue('Catégorie 01', 'fr_FR');
-        $category = Category::of('category01', $categoryNames)->withTimestamp(1506951117);
+        $category = Category::of('category01', $categoryNames);
 
         self::assertSame('category01', $category->getId());
         self::assertSame(null, $category->getName('de_DE'));
         self::assertSame(null, $category->getParentId());
-        self::assertSame(1506951117, $category->getTimestamp());
         self::assertSame($categoryNames, $category->getNames());
     }
 
@@ -53,9 +52,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
             ->withValue('Catégorie 01', 'fr_FR');
         $category = Category::of('category01', $categoryNames);
         $category = $category->withParent('category02');
-        $category = $category->withTimestamp(1506951117);
         self::assertEquals([
-            '@timestamp' => 1506951117,
             'category_id' => 'category01',
             'parent_id' => 'category02',
             'names'=> [

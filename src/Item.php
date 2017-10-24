@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-abstract class Item extends Entity
+abstract class Item
 {
     public static function sanitizeId(string $id): string
     {
@@ -55,13 +55,17 @@ abstract class Item extends Entity
 
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $attributeValues = [];
+        $json = [];
         /** @var AttributeValue $attributeValue */
         foreach ($this->attributeValues as $attributeValue) {
-            $attributeValues += $attributeValue->toJson();
+            $attributeId = $attributeValue->getAttributeId();
+            $locale = $attributeValue->getLocale();
+            if (isset($locale)) {
+                $json['localizations'][$locale][$attributeId] = $attributeValue->getValue();
+            } else {
+                $json['attribute_values'][$attributeId] = $attributeValue->getValue();
+            }
         }
-        $json['attribute_values'] = $attributeValues;
         return $json;
     }
 

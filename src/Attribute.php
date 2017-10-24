@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-final class Attribute extends Entity
+final class Attribute
 {
     public static function of(string $id, string $type, LocalizedStringSet $names): self
     {
@@ -55,11 +55,11 @@ final class Attribute extends Entity
 
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $json['attribute_id'] = $this->id;
-        $json['type'] = $this->type;
-        $json['names'] = $this->names->toJson();
-        return $json;
+        return [
+            'attribute_id' => $this->id,
+            'type' => $this->type,
+            'names' => $this->names->toJson(),
+        ];
     }
 
     private $id;

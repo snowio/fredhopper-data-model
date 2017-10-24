@@ -3,7 +3,7 @@ namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-final class AttributeOption extends Entity
+final class AttributeOption
 {
     public static function of(string $attributeId, string $valueId): self
     {
@@ -60,11 +60,11 @@ final class AttributeOption extends Entity
 
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $json['value_id'] = $this->valueId;
-        $json['attribute_id'] = $this->attributeId;
-        $json['display_values'] = $this->displayValues->toJson();
-        return $json;
+        return [
+            'value_id' => $this->valueId,
+            'attribute_id' => $this->attributeId,
+            'display_values' => $this->displayValues->toJson(),
+        ];
     }
 
     private $valueId;

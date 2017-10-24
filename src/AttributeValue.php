@@ -51,13 +51,6 @@ final class AttributeValue
             && $object->locale === $this->locale;
     }
 
-    public function toJson(): array
-    {
-        return [
-            $this->attributeId => $this->value,
-        ];
-    }
-
     private $attributeId;
     private $value;
     private $locale;

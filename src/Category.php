@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-final class Category extends Entity
+final class Category
 {
     public static function of(string $id, LocalizedStringSet $names): self
     {
@@ -67,11 +67,11 @@ final class Category extends Entity
 
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $json['category_id'] = $this->id;
-        $json['names'] = $this->names->toJson();
-        $json['parent_id'] = $this->parentId;
-        return $json;
+        return [
+            'category_id' => $this->id,
+            'parent_id' => $this->parentId,
+            'names' => $this->names->toJson(),
+        ];
     }
 
     private $id;

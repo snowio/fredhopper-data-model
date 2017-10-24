@@ -17,11 +17,10 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'colour',
             'list',
             $attributeNames
-        )->withTimestamp(1506951117);
+        );
 
         self::assertSame('colour', $attribute->getId());
         self::assertSame('list', $attribute->getType());
-        self::assertSame(1506951117, $attribute->getTimestamp());
         self::assertSame($attributeNames, $attribute->getNames());
         self::assertEquals(null, $attribute->getName('de_DE'));
     }
@@ -66,9 +65,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
                 ->withValue('Coleur', 'fr_FR')
         );
 
-        $attribute = $attribute->withTimestamp(1506948035);
         self::assertEquals([
-            '@timestamp' => 1506948035,
             'attribute_id' => 'colour',
             'type' => 'list',
             'names' => [

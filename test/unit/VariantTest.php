@@ -13,12 +13,10 @@ class VariantTest extends TestCase
         $attributeValue = AttributeValue::of('no_of_pairs', 2);
         $attributeValueSet = AttributeValueSet::of([$attributeValue]);
         $variant = Variant::of('acme_red_wool_socks', 'acme_wool_socks')
-            ->withTimestamp(1506951117)
             ->withAttributeValues($attributeValueSet);
         self::assertEquals('acme_red_wool_socks', $variant->getId());
         self::assertEquals('acme_wool_socks', $variant->getProductId());
         self::assertEquals([$attributeValue], iterator_to_array($variant->getAttributeValues()));
-        self::assertEquals(1506951117, $variant->getTimestamp());
     }
 
     /**
@@ -44,11 +42,9 @@ class VariantTest extends TestCase
         $attributeValue = AttributeValue::of('no_of_pairs', 2);
         $attributeValueSet = AttributeValueSet::of([$attributeValue]);
         $variant = Variant::of('acme_red_wool_socks', 'acme_wool_socks')
-            ->withAttributeValues($attributeValueSet)
-            ->withTimestamp(1506951117);
+            ->withAttributeValues($attributeValueSet);
 
         self::assertEquals([
-            '@timestamp' => 1506951117,
             'variant_id' => 'acme_red_wool_socks',
             'product_id' => 'acme_wool_socks',
             'attribute_values' => [
