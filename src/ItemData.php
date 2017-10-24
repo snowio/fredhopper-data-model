@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-abstract class Item
+abstract class ItemData
 {
     public static function sanitizeId(string $id): string
     {
@@ -48,7 +48,7 @@ abstract class Item
 
     public function equals($other): bool
     {
-        return $other instanceof Item
+        return $other instanceof ItemData
             && $this->id === $other->id
             && $this->attributeValues->equals($other->attributeValues);
     }

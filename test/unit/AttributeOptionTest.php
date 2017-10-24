@@ -5,13 +5,13 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeOption;
 use SnowIO\FredhopperDataModel\LocalizedString;
-use SnowIO\FredhopperDataModel\LocalizedStringSet;
+use SnowIO\FredhopperDataModel\InternationalizedString;
 
 class AttributeOptionTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $displayValues = LocalizedStringSet::create()
+        $displayValues = InternationalizedString::create()
             ->withValue('Red', 'en_GB')
             ->withValue('Rot', 'de_DE')
             ->withValue('Rojo', 'es_ES')
@@ -38,7 +38,7 @@ class AttributeOptionTest extends TestCase
 
     public function testToJson()
     {
-        $displayValues = LocalizedStringSet::create()
+        $displayValues = InternationalizedString::create()
             ->withValue('Red', 'en_GB')
             ->withValue('Rot', 'de_DE')
             ->withValue('Rojo', 'es_ES')

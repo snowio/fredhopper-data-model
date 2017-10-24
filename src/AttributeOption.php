@@ -1,6 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
 final class AttributeOption
@@ -8,12 +9,22 @@ final class AttributeOption
     public static function of(string $attributeId, string $valueId): self
     {
         validateId($attributeId);
-        validateId($valueId);
+        self::validateValueId($valueId);
         $attributeOption = new self;
         $attributeOption->attributeId = $attributeId;
         $attributeOption->valueId = $valueId;
-        $attributeOption->displayValues = LocalizedStringSet::create();
+        $attributeOption->displayValues = InternationalizedString::create();
         return $attributeOption;
+    }
+
+    public static function validateValueId(string $valueId): void
+    {
+        validateId($valueId);
+    }
+
+    public static function sanitizeValueId(string $valueId): string
+    {
+        return sanitizeId($valueId);
     }
 
     public function getAttributeId(): string
@@ -26,7 +37,7 @@ final class AttributeOption
         return $this->valueId;
     }
 
-    public function withDisplayValues(LocalizedStringSet $displayValues): self
+    public function withDisplayValues(InternationalizedString $displayValues): self
     {
         $attributeOption = clone $this;
         $attributeOption->displayValues = $displayValues;
@@ -40,7 +51,7 @@ final class AttributeOption
         return $attributeOption;
     }
 
-    public function getDisplayValues(): LocalizedStringSet
+    public function getDisplayValues(): InternationalizedString
     {
         return $this->displayValues;
     }
@@ -69,7 +80,7 @@ final class AttributeOption
 
     private $valueId;
     private $attributeId;
-    /** @var LocalizedStringSet */
+    /** @var InternationalizedString */
     private $displayValues;
 
     private function __construct()

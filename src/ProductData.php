@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-final class Product extends Item
+final class ProductData extends ItemData
 {
     public static function of(string $id): self
     {
@@ -15,14 +15,14 @@ final class Product extends Item
         return $this->categoryIds;
     }
 
-    public function withCategoryIds(CategoryIdSet $categoryIds): Product
+    public function withCategoryIds(CategoryIdSet $categoryIds): ProductData
     {
         $result = clone $this;
         $result->categoryIds = $categoryIds;
         return $result;
     }
 
-    public function withCategoryId(string $categoryId): Product
+    public function withCategoryId(string $categoryId): ProductData
     {
         $result = clone $this;
         $result->categoryIds = $this->categoryIds->with($categoryId);
@@ -31,7 +31,7 @@ final class Product extends Item
 
     public function equals($other): bool
     {
-        return $other instanceof Product
+        return $other instanceof ProductData
             && parent::equals($other)
             && $this->categoryIds->equals($other->categoryIds);
     }

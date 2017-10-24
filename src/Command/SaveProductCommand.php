@@ -1,29 +1,29 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Command;
 
-use SnowIO\FredhopperDataModel\Product;
+use SnowIO\FredhopperDataModel\ProductData;
 
 final class SaveProductCommand extends Command
 {
-    public static function of(Product $product): self
+    public static function of(ProductData $productData): self
     {
         $command = new self;
-        $command->product = $product;
+        $command->productData = $productData;
         return $command;
     }
 
-    public function getProduct(): Product
+    public function getProductData(): ProductData
     {
-        return $this->product;
+        return $this->productData;
     }
 
     public function toJson(): array
     {
-        return parent::toJson() + $this->product->toJson();
+        return parent::toJson() + $this->productData->toJson();
     }
 
-    /** @var Product */
-    private $product;
+    /** @var ProductData */
+    private $productData;
 
     private function __construct()
     {

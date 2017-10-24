@@ -4,11 +4,11 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-final class Attribute
+final class AttributeData
 {
-    public static function of(string $id, string $type, LocalizedStringSet $names): self
+    public static function of(string $id, string $type, InternationalizedString $names): self
     {
-        validateId($id);
+        self::validateId($id);
         AttributeType::validate($type);
         if ($names->isEmpty()) {
             throw new \Exception('A name must be provided for at least one locale.');
@@ -18,6 +18,11 @@ final class Attribute
         $attribute->type = $type;
         $attribute->names = $names;
         return $attribute;
+    }
+
+    public static function validateId(string $id): void
+    {
+        validateId($id);
     }
 
     public static function sanitizeId(string $id): string
@@ -35,7 +40,7 @@ final class Attribute
         return $this->type;
     }
 
-    public function getNames(): LocalizedStringSet
+    public function getNames(): InternationalizedString
     {
         return $this->names;
     }
@@ -47,7 +52,7 @@ final class Attribute
 
     public function equals($other): bool
     {
-        return $other instanceof Attribute
+        return $other instanceof AttributeData
             && $this->id === $other->id
             && $this->type === $other->type
             && $this->names->equals($other->names);
@@ -64,7 +69,7 @@ final class Attribute
 
     private $id;
     private $type;
-    /** @var LocalizedStringSet */
+    /** @var InternationalizedString */
     private $names;
 
     private function __construct()

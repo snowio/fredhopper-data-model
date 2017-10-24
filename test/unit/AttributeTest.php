@@ -2,18 +2,18 @@
 namespace SnowIO\FredhopperDataModel\Test;
 
 use Exception;
-use SnowIO\FredhopperDataModel\Attribute;
-use SnowIO\FredhopperDataModel\LocalizedStringSet;
+use SnowIO\FredhopperDataModel\AttributeData;
+use SnowIO\FredhopperDataModel\InternationalizedString;
 
 class AttributeTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
     {
-        $attributeNames = LocalizedStringSet::create()
+        $attributeNames = InternationalizedString::create()
             ->withValue('Color', 'en_GB')
             ->withValue('Coleur', 'fr_FR');
-        $attribute = Attribute::of(
+        $attribute = AttributeData::of(
             'colour',
             'list',
             $attributeNames
@@ -31,10 +31,10 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidAttributeId()
     {
-        Attribute::of(
+        AttributeData::of(
             '$colour',
             'list',
-            LocalizedStringSet::create()
+            InternationalizedString::create()
                 ->withValue('Color', 'en_GB')
                 ->withValue('Coleur', 'fr_FR')
         );
@@ -46,10 +46,10 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidAttributeType()
     {
-        Attribute::of(
+        AttributeData::of(
             'colour',
             'object',
-            LocalizedStringSet::create()
+            InternationalizedString::create()
                 ->withValue('Color', 'en_GB')
                 ->withValue('Coleur', 'fr_FR')
         );
@@ -57,10 +57,10 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
 
     public function testToJson()
     {
-        $attribute = Attribute::of(
+        $attribute = AttributeData::of(
             'colour',
             'list',
-            LocalizedStringSet::create()
+            InternationalizedString::create()
                 ->withValue('Color', 'en_GB')
                 ->withValue('Coleur', 'fr_FR')
         );
@@ -77,7 +77,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
 
     public function testSanitisation()
     {
-        $attributeId = Attribute::sanitizeId('tile-color');
+        $attributeId = AttributeData::sanitizeId('tile-color');
         self::assertEquals('tile_color', $attributeId);
     }
 }

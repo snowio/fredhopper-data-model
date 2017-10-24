@@ -1,9 +1,9 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-final class Category
+final class CategoryData
 {
-    public static function of(string $id, LocalizedStringSet $names): self
+    public static function of(string $id, InternationalizedString $names): self
     {
         self::validateId($id);
         if ($names->isEmpty()) {
@@ -34,7 +34,7 @@ final class Category
         return $this->id;
     }
 
-    public function getNames(): LocalizedStringSet
+    public function getNames(): InternationalizedString
     {
         return $this->names;
     }
@@ -59,7 +59,7 @@ final class Category
 
     public function equals($other): bool
     {
-        return $other instanceof Category
+        return $other instanceof CategoryData
             && $this->id === $other->id
             && $this->parentId === $other->parentId
             && $this->names->equals($other->names);
@@ -76,7 +76,7 @@ final class Category
 
     private $id;
     private $parentId;
-    /** @var LocalizedStringSet */
+    /** @var InternationalizedString */
     private $names;
 
     private function __construct()

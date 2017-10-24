@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeValue;
 use SnowIO\FredhopperDataModel\AttributeValueSet;
 use SnowIO\FredhopperDataModel\CategoryIdSet;
-use SnowIO\FredhopperDataModel\Product;
+use SnowIO\FredhopperDataModel\ProductData;
 
 class ProductTest extends TestCase
 {
@@ -14,7 +14,7 @@ class ProductTest extends TestCase
     {
         $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
-        $product = Product::of('an_v2783')
+        $product = ProductData::of('an_v2783')
             ->withCategoryIds($categoryIds)
             ->withAttributeValues($attributeValueSet);
         self::assertSame('an_v2783', $product->getId());
@@ -28,14 +28,14 @@ class ProductTest extends TestCase
      */
     public function testInvalidProductId()
     {
-        Product::of('$0i0ifjgo', CategoryIdSet::of(['books', 'fiction', 'sci_fi']));
+        ProductData::of('$0i0ifjgo', CategoryIdSet::of(['books', 'fiction', 'sci_fi']));
     }
 
     public function testToJson()
     {
         $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
-        $product = Product::of('an_v2783')
+        $product = ProductData::of('an_v2783')
             ->withCategoryIds($categoryIds)
             ->withAttributeValues($attributeValueSet);
         self::assertEquals([
@@ -51,15 +51,15 @@ class ProductTest extends TestCase
 
     public function testSanitization()
     {
-        $attributeId = Product::sanitizeId('product#01-38927');
+        $attributeId = ProductData::sanitizeId('product#01-38927');
         self::assertEquals('product_01_38927', $attributeId);
     }
 
     public function testEquals()
     {
-        $product1 = Product::of('foo', CategoryIdSet::of(['bar', 'baz']))
+        $product1 = ProductData::of('foo', CategoryIdSet::of(['bar', 'baz']))
             ->withAttributeValue(AttributeValue::of('colour', 'red'));
-        $product2 = Product::of('foo', CategoryIdSet::of(['bar', 'baz']))
+        $product2 = ProductData::of('foo', CategoryIdSet::of(['bar', 'baz']))
             ->withAttributeValue(AttributeValue::of('colour', 'red'));
         self::assertTrue($product1->equals($product2));
         $product3 = $product1->withCategoryId('wibble');

@@ -1,13 +1,13 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Command;
 
-use SnowIO\FredhopperDataModel\Product;
+use SnowIO\FredhopperDataModel\ProductData;
 
 class DeleteProductCommand extends Command
 {
     public static function of(string $productId)
     {
-        Product::validateId($productId);
+        ProductData::validateId($productId);
         $command = new self;
         $command->productId = $productId;
         return $command;

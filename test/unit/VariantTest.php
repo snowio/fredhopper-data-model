@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Test;
 use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeValue;
 use SnowIO\FredhopperDataModel\AttributeValueSet;
-use SnowIO\FredhopperDataModel\Variant;
+use SnowIO\FredhopperDataModel\VariantData;
 
 class VariantTest extends TestCase
 {
@@ -12,7 +12,7 @@ class VariantTest extends TestCase
     {
         $attributeValue = AttributeValue::of('no_of_pairs', 2);
         $attributeValueSet = AttributeValueSet::of([$attributeValue]);
-        $variant = Variant::of('acme_red_wool_socks', 'acme_wool_socks')
+        $variant = VariantData::of('acme_red_wool_socks', 'acme_wool_socks')
             ->withAttributeValues($attributeValueSet);
         self::assertEquals('acme_red_wool_socks', $variant->getId());
         self::assertEquals('acme_wool_socks', $variant->getProductId());
@@ -25,7 +25,7 @@ class VariantTest extends TestCase
      */
     public function testInvalidVariantId()
     {
-        Variant::of('$acme$wool$socks', 'acme_wool_socks');
+        VariantData::of('$acme$wool$socks', 'acme_wool_socks');
     }
 
     /**
@@ -34,14 +34,14 @@ class VariantTest extends TestCase
      */
     public function testInvalidProductId()
     {
-        Variant::of('acme_wool_socks', 'acme$wool$socks');
+        VariantData::of('acme_wool_socks', 'acme$wool$socks');
     }
 
     public function testToJson()
     {
         $attributeValue = AttributeValue::of('no_of_pairs', 2);
         $attributeValueSet = AttributeValueSet::of([$attributeValue]);
-        $variant = Variant::of('acme_red_wool_socks', 'acme_wool_socks')
+        $variant = VariantData::of('acme_red_wool_socks', 'acme_wool_socks')
             ->withAttributeValues($attributeValueSet);
 
         self::assertEquals([
@@ -55,7 +55,7 @@ class VariantTest extends TestCase
 
     public function testSanitization()
     {
-        $attributeId = Variant::sanitizeId('variant#01-38927');
+        $attributeId = VariantData::sanitizeId('variant#01-38927');
         self::assertEquals('variant_01_38927', $attributeId);
     }
 
@@ -64,6 +64,6 @@ class VariantTest extends TestCase
      */
     public function testVariantIdSameAsProductIdThrows()
     {
-        Variant::of('foo', 'foo');
+        VariantData::of('foo', 'foo');
     }
 }

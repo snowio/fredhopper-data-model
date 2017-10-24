@@ -1,18 +1,18 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Test;
 
-use SnowIO\FredhopperDataModel\Category;
-use SnowIO\FredhopperDataModel\LocalizedStringSet;
+use SnowIO\FredhopperDataModel\CategoryData;
+use SnowIO\FredhopperDataModel\InternationalizedString;
 
 class CategoryTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
     {
-        $categoryNames = LocalizedStringSet::create()
+        $categoryNames = InternationalizedString::create()
             ->withValue('Category 01', 'en_GB')
             ->withValue('Catégorie 01', 'fr_FR');
-        $category = Category::of('category01', $categoryNames);
+        $category = CategoryData::of('category01', $categoryNames);
 
         self::assertSame('category01', $category->getId());
         self::assertSame(null, $category->getName('de_DE'));
@@ -26,10 +26,10 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidCategoryId()
     {
-        $categoryNames = LocalizedStringSet::create()
+        $categoryNames = InternationalizedString::create()
             ->withValue('Category 01', 'en_GB')
             ->withValue('Catégorie 01', 'fr_FR');
-        Category::of('01cat', $categoryNames);
+        CategoryData::of('01cat', $categoryNames);
     }
 
     /**
@@ -38,19 +38,19 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidParentId()
     {
-        $categoryNames = LocalizedStringSet::create()
+        $categoryNames = InternationalizedString::create()
             ->withValue('Category 01', 'en_GB')
             ->withValue('Catégorie 01', 'fr_FR');
-        $category = Category::of('category01', $categoryNames);
+        $category = CategoryData::of('category01', $categoryNames);
         $category->withParent('02cat');
     }
 
     public function testToJson()
     {
-        $categoryNames = LocalizedStringSet::create()
+        $categoryNames = InternationalizedString::create()
             ->withValue('Category 01', 'en_GB')
             ->withValue('Catégorie 01', 'fr_FR');
-        $category = Category::of('category01', $categoryNames);
+        $category = CategoryData::of('category01', $categoryNames);
         $category = $category->withParent('category02');
         self::assertEquals([
             'category_id' => 'category01',
@@ -64,7 +64,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 
     public function testSanitisation()
     {
-        $attributeId = Category::sanitizeId('category_01');
+        $attributeId = CategoryData::sanitizeId('category_01');
         self::assertEquals('category01', $attributeId);
     }
 }

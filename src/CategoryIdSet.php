@@ -12,7 +12,7 @@ final class CategoryIdSet
 
     public function with(string $categoryId): self
     {
-        Category::validateId($categoryId);
+        CategoryData::validateId($categoryId);
         $result = clone $this;
         $result->items[$categoryId] = $categoryId;
         return $result;
