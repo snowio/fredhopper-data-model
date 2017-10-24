@@ -14,7 +14,8 @@ class ProductTest extends TestCase
     {
         $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
-        $product = Product::of('an_v2783', $categoryIds)
+        $product = Product::of('an_v2783')
+            ->withCategoryIds($categoryIds)
             ->withAttributeValues($attributeValueSet)
             ->withTimestamp(1506951117);
         self::assertSame('an_v2783', $product->getId());
@@ -36,7 +37,8 @@ class ProductTest extends TestCase
     {
         $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
-        $product = Product::of('an_v2783', $categoryIds)
+        $product = Product::of('an_v2783')
+            ->withCategoryIds($categoryIds)
             ->withTimestamp(1506951117)
             ->withAttributeValues($attributeValueSet);
         self::assertEquals([

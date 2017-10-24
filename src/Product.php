@@ -3,10 +3,10 @@ namespace SnowIO\FredhopperDataModel;
 
 final class Product extends Item
 {
-    public static function of(string $id, CategoryIdSet $categoryIds): self
+    public static function of(string $id): self
     {
         $product = new self($id);
-        $product->categoryIds = $categoryIds;
+        $product->categoryIds = CategoryIdSet::create();
         return $product;
     }
 
