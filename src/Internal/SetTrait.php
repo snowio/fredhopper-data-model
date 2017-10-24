@@ -1,15 +1,21 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Internal;
 
+use SnowIO\FredhopperDataModel\FredhopperDataException;
+
 trait SetTrait
 {
     public static function of(array $items): self
     {
         $set = new self;
         foreach ($items as $item) {
-            $key = self::getKey($item);
+            try {
+                $key = self::getKey($item);
+            } catch (\Throwable $e) {
+                throw new FredhopperDataException;
+            }
             if (isset($set->items[$key])) {
-                throw new \Error;
+                throw new FredhopperDataException;
             }
             $set->items[$key] = $item;
         }
@@ -24,7 +30,7 @@ trait SetTrait
     public function add(self $otherSet): self
     {
         if ($otherSet->overlaps($this)) {
-            throw new \Error;
+            throw new FredhopperDataException;
         }
         $result = new self;
         $result->items = \array_merge($this->items, $otherSet->items);

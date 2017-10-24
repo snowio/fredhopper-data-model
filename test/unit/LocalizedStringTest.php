@@ -14,7 +14,7 @@ class LocalizedStringTest extends TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testInvalidLocaleThrows()
     {

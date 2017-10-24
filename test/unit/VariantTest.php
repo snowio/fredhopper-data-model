@@ -20,7 +20,7 @@ class VariantTest extends TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      * @expectedExceptionMessage Invalid Id
      */
     public function testInvalidVariantId()
@@ -29,7 +29,7 @@ class VariantTest extends TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      * @expectedExceptionMessage Invalid Id
      */
     public function testInvalidProductId()
@@ -60,7 +60,7 @@ class VariantTest extends TestCase
     }
 
     /**
-     * @expectedException \Error
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testVariantIdSameAsProductIdThrows()
     {

@@ -125,7 +125,7 @@ final class Locale
     public static function validate(string $locale): void
     {
         if (!\in_array($locale, self::ALL)) {
-            throw new \Exception('Invalid Locale');
+            throw new FredhopperDataException('Invalid Locale');
         }
     }
 

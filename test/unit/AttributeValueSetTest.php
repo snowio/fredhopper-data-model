@@ -15,7 +15,7 @@ class AttributeValueSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Error
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testDuplicateAttributeIdThrows()
     {
@@ -25,7 +25,7 @@ class AttributeValueSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Error
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testDuplicateAttributeIdLocaleCombinationThrows()
     {
@@ -35,7 +35,7 @@ class AttributeValueSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Error
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testPassingNonAttributeValueToConstructorThrows()
     {
@@ -58,7 +58,7 @@ class AttributeValueSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Error
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      */
     public function testAddingOverlappingAttributeSetsThrows()
     {

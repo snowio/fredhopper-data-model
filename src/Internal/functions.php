@@ -1,10 +1,12 @@
 <?php
 namespace SnowIO\FredhopperDataModel\Internal;
 
+use SnowIO\FredhopperDataModel\FredhopperDataException;
+
 function validateId(string $id): void
 {
     if (!\preg_match('{^[a-z0-9_]+$}', $id)) {
-        throw new \Exception('Invalid Id');
+        throw new FredhopperDataException('Invalid Id');
     }
 }
 

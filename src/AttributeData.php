@@ -11,7 +11,7 @@ final class AttributeData
         self::validateId($id);
         AttributeType::validate($type);
         if ($names->isEmpty()) {
-            throw new \Exception('A name must be provided for at least one locale.');
+            throw new FredhopperDataException('A name must be provided for at least one locale.');
         }
         $attribute = new self;
         $attribute->id = $id;

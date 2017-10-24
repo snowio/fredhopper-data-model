@@ -21,7 +21,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      * @expectedExceptionMessage Invalid Id
      */
     public function testInvalidCategoryId()
@@ -33,7 +33,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \SnowIO\FredhopperDataModel\FredhopperDataException
      * @expectedExceptionMessage Invalid Id
      */
     public function testInvalidParentId()

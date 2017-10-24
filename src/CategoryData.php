@@ -7,7 +7,7 @@ final class CategoryData
     {
         self::validateId($id);
         if ($names->isEmpty()) {
-            throw new \Exception('A name must be provided for at least one locale.');
+            throw new FredhopperDataException('A name must be provided for at least one locale.');
         }
         $category = new self;
         $category->id = $id;
@@ -25,7 +25,7 @@ final class CategoryData
     public static function validateId(string $id): void
     {
         if (!\preg_match('{^[a-z][a-z0-9_]+$}', $id)) {
-            throw new \Exception('Invalid Id');
+            throw new FredhopperDataException('Invalid Id');
         }
     }
 
