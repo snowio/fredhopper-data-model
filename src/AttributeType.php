@@ -27,7 +27,7 @@ final class AttributeType
     public static function validate(string $type): void
     {
         if (!\in_array($type, self::ALL)) {
-            throw new \Exception('Invalid Type');
+            throw new FredhopperDataException('Invalid Type');
         }
     }
 

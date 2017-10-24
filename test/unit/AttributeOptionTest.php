@@ -4,31 +4,27 @@ namespace SnowIO\FredhopperDataModel\Test;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeOption;
+use SnowIO\FredhopperDataModel\LocalizedString;
+use SnowIO\FredhopperDataModel\InternationalizedString;
 
 class AttributeOptionTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $attributeOption = AttributeOption::of('color', 'red')
-            ->withDisplayValues([
-                'en_GB' => 'Red',
-                'de_DE' => 'Rot',
-                'es_ES' => 'Rojo',
-                'fr_FR' => 'Rouge',
-            ])->withDisplayValue('Rougee', 'fr_FR')
-            ->withTimestamp(1506951117);
+        $displayValues = InternationalizedString::create()
+            ->withValue('Red', 'en_GB')
+            ->withValue('Rot', 'de_DE')
+            ->withValue('Rojo', 'es_ES')
+            ->withValue('Rouge', 'fr_FR');
+        $option = AttributeOption::of('color', 'red')
+            ->withDisplayValues($displayValues)
+            ->withDisplayValue(LocalizedString::of('Rougee', 'fr_FR'));
 
-        self::assertEquals(1506951117, $attributeOption->getTimestamp());
-        self::assertEquals('red', $attributeOption->getValueId());
-        self::assertEquals('color', $attributeOption->getAttributeId());
-        self::assertEquals('Red', $attributeOption->getDisplayValue('en_GB'));
-        self::assertEquals([
-            'en_GB' => 'Red',
-            'de_DE' => 'Rot',
-            'es_ES' => 'Rojo',
-            'fr_FR' => 'Rougee',
-        ], $attributeOption->getDisplayValues());
-        self::assertEquals(null, $attributeOption->getDisplayValue('es_US'));
+        self::assertSame('red', $option->getValueId());
+        self::assertSame('color', $option->getAttributeId());
+        self::assertSame('Red', $option->getDisplayValue('en_GB'));
+        self::assertTrue($option->getDisplayValues()->equals($displayValues->withValue('Rougee', 'fr_FR')));
+        self::assertSame(null, $option->getDisplayValue('es_US'));
     }
 
     /**
@@ -42,17 +38,15 @@ class AttributeOptionTest extends TestCase
 
     public function testToJson()
     {
+        $displayValues = InternationalizedString::create()
+            ->withValue('Red', 'en_GB')
+            ->withValue('Rot', 'de_DE')
+            ->withValue('Rojo', 'es_ES')
+            ->withValue('Rouge', 'fr_FR');
         $attributeOption = AttributeOption::of('color', 'red')
-            ->withDisplayValues([
-                'en_GB' => 'Red',
-                'de_DE' => 'Rot',
-                'es_ES' => 'Rojo',
-                'fr_FR' => 'Rouge',
-            ])
-            ->withTimestamp(1506951117);
+            ->withDisplayValues($displayValues);
 
         self::assertEquals([
-            '@timestamp' => 1506951117,
             'value_id' => 'red',
             'attribute_id' => 'color',
             'display_values' => [
@@ -67,8 +61,8 @@ class AttributeOptionTest extends TestCase
     public function testChangeDisplayValue()
     {
         $option = AttributeOption::of('color', 'red')
-            ->withDisplayValue('Red', 'en_GB')
-            ->withDisplayValue('Red!', 'en_GB');
+            ->withDisplayValue(LocalizedString::of('Red', 'en_GB'))
+            ->withDisplayValue(LocalizedString::of('Red!', 'en_GB'));
 
         self::assertSame('Red!', $option->getDisplayValue('en_GB'));
     }

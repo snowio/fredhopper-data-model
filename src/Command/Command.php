@@ -1,9 +1,9 @@
 <?php
-namespace SnowIO\FredhopperDataModel;
+namespace SnowIO\FredhopperDataModel\Command;
 
-abstract class Entity
+abstract class Command
 {
-    public function getTimestamp(): int
+    public function getTimestamp(): ?int
     {
         return $this->timestamp;
     }
@@ -21,10 +21,13 @@ abstract class Entity
 
     public function toJson(): array
     {
-        return [
-            '@timestamp' => $this->timestamp,
-        ];
+        if (isset($this->timestamp)) {
+            return [
+                '@timestamp' => $this->timestamp,
+            ];
+        }
+        return [];
     }
 
-    private $timestamp = 0;
+    private $timestamp;
 }

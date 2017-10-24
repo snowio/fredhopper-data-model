@@ -1,13 +1,13 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-class Category extends Entity
+final class CategoryData
 {
-    public static function of(string $id, array $names): self
+    public static function of(string $id, InternationalizedString $names): self
     {
         self::validateId($id);
-        foreach ($names as $locale => $name) {
-            Locale::validate($locale);
+        if ($names->isEmpty()) {
+            throw new FredhopperDataException('A name must be provided for at least one locale.');
         }
         $category = new self;
         $category->id = $id;
@@ -25,7 +25,7 @@ class Category extends Entity
     public static function validateId(string $id): void
     {
         if (!\preg_match('{^[a-z][a-z0-9_]+$}', $id)) {
-            throw new \Exception('Invalid Id');
+            throw new FredhopperDataException('Invalid Id');
         }
     }
 
@@ -34,15 +34,14 @@ class Category extends Entity
         return $this->id;
     }
 
-    public function getNames(): array
+    public function getNames(): InternationalizedString
     {
         return $this->names;
     }
 
     public function getName(string $locale): ?string
     {
-        Locale::validate($locale);
-        return $this->names[$locale] ?? null;
+        return $this->names->getValue($locale);
     }
 
     public function getParentId(): ?string
@@ -58,17 +57,26 @@ class Category extends Entity
         return $category;
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof CategoryData
+            && $this->id === $other->id
+            && $this->parentId === $other->parentId
+            && $this->names->equals($other->names);
+    }
+
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $json['category_id'] = $this->id;
-        $json['names'] = $this->names;
-        $json['parent_id'] = $this->parentId;
-        return $json;
+        return [
+            'category_id' => $this->id,
+            'parent_id' => $this->parentId,
+            'names' => $this->names->toJson(),
+        ];
     }
 
     private $id;
     private $parentId;
+    /** @var InternationalizedString */
     private $names;
 
     private function __construct()

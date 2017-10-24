@@ -1,12 +1,15 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-class Variant extends Item
+final class VariantData extends ItemData
 {
     public static function of(string $id, string $productId): self
     {
-        Product::validateId($productId);
+        ProductData::validateId($productId);
         $variant = new self($id);
+        if ($id === $productId) {
+            throw new FredhopperDataException('variant_id and product_id must not be the same.');
+        }
         $variant->productId = $productId;
         return $variant;
     }

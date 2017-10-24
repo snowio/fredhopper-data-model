@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-abstract class Item extends Entity
+abstract class ItemData
 {
     public static function sanitizeId(string $id): string
     {
@@ -26,6 +26,9 @@ abstract class Item extends Entity
         return $this->attributeValues;
     }
 
+    /**
+     * @return static
+     */
     public function withAttributeValues(AttributeValueSet $attributeValues): self
     {
         $item = clone $this;
@@ -33,15 +36,36 @@ abstract class Item extends Entity
         return $item;
     }
 
+    /**
+     * @return static
+     */
+    public function withAttributeValue(AttributeValue $attributeValue): self
+    {
+        $item = clone $this;
+        $item->attributeValues = $this->attributeValues->with($attributeValue);
+        return $item;
+    }
+
+    public function equals($other): bool
+    {
+        return $other instanceof ItemData
+            && $this->id === $other->id
+            && $this->attributeValues->equals($other->attributeValues);
+    }
+
     public function toJson(): array
     {
-        $json = parent::toJson();
-        $attributeValues = [];
+        $json = [];
         /** @var AttributeValue $attributeValue */
         foreach ($this->attributeValues as $attributeValue) {
-            $attributeValues += $attributeValue->toJson();
+            $attributeId = $attributeValue->getAttributeId();
+            $locale = $attributeValue->getLocale();
+            if (isset($locale)) {
+                $json['localizations'][$locale][$attributeId] = $attributeValue->getValue();
+            } else {
+                $json['attribute_values'][$attributeId] = $attributeValue->getValue();
+            }
         }
-        $json['attribute_values'] = $attributeValues;
         return $json;
     }
 

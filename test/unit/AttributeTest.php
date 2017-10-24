@@ -2,30 +2,27 @@
 namespace SnowIO\FredhopperDataModel\Test;
 
 use Exception;
-use SnowIO\FredhopperDataModel\Attribute;
+use SnowIO\FredhopperDataModel\AttributeData;
+use SnowIO\FredhopperDataModel\InternationalizedString;
 
 class AttributeTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
     {
-        $attribute = Attribute::of(
+        $attributeNames = InternationalizedString::create()
+            ->withValue('Color', 'en_GB')
+            ->withValue('Coleur', 'fr_FR');
+        $attribute = AttributeData::of(
             'colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
-        )->withTimestamp(1506951117);
+            $attributeNames
+        );
 
-        self::assertEquals('colour', $attribute->getId());
-        self::assertEquals('list', $attribute->getType());
-        self::assertEquals(1506951117, $attribute->getTimestamp());
-        self::assertEquals([
-            'en_GB' => 'Color',
-            'fr_FR' => 'Couleur',
-        ], $attribute->getNames());
-        self::assertEquals(null, $attribute->getName('en_DE'));
+        self::assertSame('colour', $attribute->getId());
+        self::assertSame('list', $attribute->getType());
+        self::assertSame($attributeNames, $attribute->getNames());
+        self::assertEquals(null, $attribute->getName('de_DE'));
     }
 
     /**
@@ -34,13 +31,12 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidAttributeId()
     {
-        Attribute::of(
+        AttributeData::of(
             '$colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
+            InternationalizedString::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
     }
 
@@ -50,58 +46,38 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidAttributeType()
     {
-        Attribute::of(
+        AttributeData::of(
             'colour',
             'object',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
-        );
-    }
-
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Invalid Locale
-     */
-    public function testInvalidAttributeLocale()
-    {
-        Attribute::of(
-            'colour',
-            'list',
-            [
-                'en_GB' => 'Color',
-                'fr_Fr' => 'Couleur',
-            ]
+            InternationalizedString::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
     }
 
     public function testToJson()
     {
-        $attribute = Attribute::of(
+        $attribute = AttributeData::of(
             'colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
+            InternationalizedString::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
 
-        $attribute = $attribute->withTimestamp(1506948035);
         self::assertEquals([
-            '@timestamp' => 1506948035,
             'attribute_id' => 'colour',
             'type' => 'list',
             'names' => [
                 'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
+                'fr_FR' => 'Coleur',
             ]
         ], $attribute->toJson());
     }
 
     public function testSanitisation()
     {
-        $attributeId = Attribute::sanitizeId('tile-color');
+        $attributeId = AttributeData::sanitizeId('tile-color');
         self::assertEquals('tile_color', $attributeId);
     }
 }

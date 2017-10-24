@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-class AttributeValue
+final class AttributeValue
 {
     public static function of(string $attributeId, $value): self
     {
@@ -49,13 +49,6 @@ class AttributeValue
             && $object->attributeId === $this->attributeId
             && $object->value === $this->value
             && $object->locale === $this->locale;
-    }
-
-    public function toJson(): array
-    {
-        return [
-            $this->attributeId => $this->value,
-        ];
     }
 
     private $attributeId;
