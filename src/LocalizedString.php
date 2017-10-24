@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-class LocalizedString
+final class LocalizedString
 {
     public static function of(string $value, string $locale): self
     {

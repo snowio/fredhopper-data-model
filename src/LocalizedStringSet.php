@@ -3,7 +3,7 @@ namespace SnowIO\FredhopperDataModel;
 
 use SnowIO\FredhopperDataModel\Internal\SetTrait;
 
-class LocalizedStringSet implements \IteratorAggregate
+final class LocalizedStringSet implements \IteratorAggregate
 {
     use SetTrait;
 

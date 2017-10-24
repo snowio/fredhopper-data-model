@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-class Attribute extends Entity
+final class Attribute extends Entity
 {
     public static function of(string $id, string $type, LocalizedStringSet $names): self
     {

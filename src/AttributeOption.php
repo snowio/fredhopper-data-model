@@ -3,7 +3,7 @@ namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-class AttributeOption extends Entity
+final class AttributeOption extends Entity
 {
     public static function of(string $attributeId, string $valueId): self
     {

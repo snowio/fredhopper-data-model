@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-class Category extends Entity
+final class Category extends Entity
 {
     public static function of(string $id, LocalizedStringSet $names): self
     {

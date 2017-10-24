@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-class Product extends Item
+final class Product extends Item
 {
     public static function of(string $id, CategoryIdSet $categoryIds): self
     {

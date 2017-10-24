@@ -3,7 +3,7 @@ namespace SnowIO\FredhopperDataModel;
 
 use SnowIO\FredhopperDataModel\Internal\SetTrait;
 
-class CategoryIdSet
+final class CategoryIdSet
 {
     use SetTrait {
         overlaps as private;

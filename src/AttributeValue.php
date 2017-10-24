@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel;
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
 use function SnowIO\FredhopperDataModel\Internal\validateId;
 
-class AttributeValue
+final class AttributeValue
 {
     public static function of(string $attributeId, $value): self
     {
