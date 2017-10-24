@@ -62,4 +62,12 @@ class VariantTest extends TestCase
         $attributeId = Variant::sanitizeId('variant#01-38927');
         self::assertEquals('variant_01_38927', $attributeId);
     }
+
+    /**
+     * @expectedException \Error
+     */
+    public function testVariantIdSameAsProductIdThrows()
+    {
+        Variant::of('foo', 'foo');
+    }
 }

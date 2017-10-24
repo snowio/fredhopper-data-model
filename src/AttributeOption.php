@@ -12,6 +12,7 @@ class AttributeOption extends Entity
         $attributeOption = new self;
         $attributeOption->attributeId = $attributeId;
         $attributeOption->valueId = $valueId;
+        $attributeOption->displayValues = LocalizedStringSet::create();
         return $attributeOption;
     }
 
@@ -25,33 +26,36 @@ class AttributeOption extends Entity
         return $this->valueId;
     }
 
-    public function withDisplayValues(array $displayValues): self
+    public function withDisplayValues(LocalizedStringSet $displayValues): self
     {
-        foreach ($displayValues as $locale => $displayValue) {
-            Locale::validate($locale);
-        }
         $attributeOption = clone $this;
         $attributeOption->displayValues = $displayValues;
         return $attributeOption;
     }
 
-    public function withDisplayValue(string $displayValue, string $locale): self
+    public function withDisplayValue(LocalizedString $displayValue): self
     {
-        Locale::validate($locale);
         $attributeOption = clone $this;
-        $attributeOption->displayValues[$locale] = $displayValue;
+        $attributeOption->displayValues = $this->displayValues->with($displayValue);
         return $attributeOption;
     }
 
-    public function getDisplayValues(): array
+    public function getDisplayValues(): LocalizedStringSet
     {
-        return $this->displayValues ?? [];
+        return $this->displayValues;
     }
 
     public function getDisplayValue(string $locale): ?string
     {
-        Locale::validate($locale);
-        return $this->displayValues[$locale] ?? null;
+        return $this->displayValues->getValue($locale);
+    }
+
+    public function equals($other): bool
+    {
+        return $other instanceof AttributeOption
+            && $other->valueId === $this->valueId
+            && $other->attributeId === $this->attributeId
+            && $other->displayValues->equals($this->displayValues);
     }
 
     public function toJson(): array
@@ -59,13 +63,14 @@ class AttributeOption extends Entity
         $json = parent::toJson();
         $json['value_id'] = $this->valueId;
         $json['attribute_id'] = $this->attributeId;
-        $json['display_values'] = $this->displayValues;
+        $json['display_values'] = $this->displayValues->toJson();
         return $json;
     }
 
     private $valueId;
     private $attributeId;
-    private $displayValues = [];
+    /** @var LocalizedStringSet */
+    private $displayValues;
 
     private function __construct()
     {

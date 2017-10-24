@@ -3,11 +3,11 @@ namespace SnowIO\FredhopperDataModel;
 
 class Category extends Entity
 {
-    public static function of(string $id, array $names): self
+    public static function of(string $id, LocalizedStringSet $names): self
     {
         self::validateId($id);
-        foreach ($names as $locale => $name) {
-            Locale::validate($locale);
+        if ($names->isEmpty()) {
+            throw new \Exception('A name must be provided for at least one locale.');
         }
         $category = new self;
         $category->id = $id;
@@ -34,15 +34,14 @@ class Category extends Entity
         return $this->id;
     }
 
-    public function getNames(): array
+    public function getNames(): LocalizedStringSet
     {
         return $this->names;
     }
 
     public function getName(string $locale): ?string
     {
-        Locale::validate($locale);
-        return $this->names[$locale] ?? null;
+        return $this->names->getValue($locale);
     }
 
     public function getParentId(): ?string
@@ -58,17 +57,26 @@ class Category extends Entity
         return $category;
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof Category
+            && $this->id === $other->id
+            && $this->parentId === $other->parentId
+            && $this->names->equals($other->names);
+    }
+
     public function toJson(): array
     {
         $json = parent::toJson();
         $json['category_id'] = $this->id;
-        $json['names'] = $this->names;
+        $json['names'] = $this->names->toJson();
         $json['parent_id'] = $this->parentId;
         return $json;
     }
 
     private $id;
     private $parentId;
+    /** @var LocalizedStringSet */
     private $names;
 
     private function __construct()

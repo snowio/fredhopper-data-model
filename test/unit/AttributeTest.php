@@ -3,29 +3,27 @@ namespace SnowIO\FredhopperDataModel\Test;
 
 use Exception;
 use SnowIO\FredhopperDataModel\Attribute;
+use SnowIO\FredhopperDataModel\LocalizedStringSet;
 
 class AttributeTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
     {
+        $attributeNames = LocalizedStringSet::create()
+            ->withValue('Color', 'en_GB')
+            ->withValue('Coleur', 'fr_FR');
         $attribute = Attribute::of(
             'colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
+            $attributeNames
         )->withTimestamp(1506951117);
 
-        self::assertEquals('colour', $attribute->getId());
-        self::assertEquals('list', $attribute->getType());
-        self::assertEquals(1506951117, $attribute->getTimestamp());
-        self::assertEquals([
-            'en_GB' => 'Color',
-            'fr_FR' => 'Couleur',
-        ], $attribute->getNames());
-        self::assertEquals(null, $attribute->getName('en_DE'));
+        self::assertSame('colour', $attribute->getId());
+        self::assertSame('list', $attribute->getType());
+        self::assertSame(1506951117, $attribute->getTimestamp());
+        self::assertSame($attributeNames, $attribute->getNames());
+        self::assertEquals(null, $attribute->getName('de_DE'));
     }
 
     /**
@@ -37,10 +35,9 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         Attribute::of(
             '$colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
+            LocalizedStringSet::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
     }
 
@@ -53,26 +50,9 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         Attribute::of(
             'colour',
             'object',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
-        );
-    }
-
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Invalid Locale
-     */
-    public function testInvalidAttributeLocale()
-    {
-        Attribute::of(
-            'colour',
-            'list',
-            [
-                'en_GB' => 'Color',
-                'fr_Fr' => 'Couleur',
-            ]
+            LocalizedStringSet::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
     }
 
@@ -81,10 +61,9 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
         $attribute = Attribute::of(
             'colour',
             'list',
-            [
-                'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
-            ]
+            LocalizedStringSet::create()
+                ->withValue('Color', 'en_GB')
+                ->withValue('Coleur', 'fr_FR')
         );
 
         $attribute = $attribute->withTimestamp(1506948035);
@@ -94,7 +73,7 @@ class AttributeTest extends \PHPUnit\Framework\TestCase
             'type' => 'list',
             'names' => [
                 'en_GB' => 'Color',
-                'fr_FR' => 'Couleur',
+                'fr_FR' => 'Coleur',
             ]
         ], $attribute->toJson());
     }

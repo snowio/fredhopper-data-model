@@ -6,12 +6,12 @@ use function SnowIO\FredhopperDataModel\Internal\validateId;
 
 class Attribute extends Entity
 {
-    public static function of(string $id, string $type, array $names): self
+    public static function of(string $id, string $type, LocalizedStringSet $names): self
     {
         validateId($id);
         AttributeType::validate($type);
-        foreach ($names as $locale => $name) {
-            Locale::validate($locale);
+        if ($names->isEmpty()) {
+            throw new \Exception('A name must be provided for at least one locale.');
         }
         $attribute = new self;
         $attribute->id = $id;
@@ -35,14 +35,22 @@ class Attribute extends Entity
         return $this->type;
     }
 
-    public function getNames(): array
+    public function getNames(): LocalizedStringSet
     {
         return $this->names;
     }
 
     public function getName(string $locale): ?string
     {
-        return $this->names[$locale] ?? null;
+        return $this->names->getValue($locale);
+    }
+
+    public function equals($other): bool
+    {
+        return $other instanceof Attribute
+            && $this->id === $other->id
+            && $this->type === $other->type
+            && $this->names->equals($other->names);
     }
 
     public function toJson(): array
@@ -50,12 +58,13 @@ class Attribute extends Entity
         $json = parent::toJson();
         $json['attribute_id'] = $this->id;
         $json['type'] = $this->type;
-        $json['names'] = $this->names;
+        $json['names'] = $this->names->toJson();
         return $json;
     }
 
     private $id;
     private $type;
+    /** @var LocalizedStringSet */
     private $names;
 
     private function __construct()

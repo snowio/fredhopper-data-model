@@ -5,21 +5,22 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\AttributeValue;
 use SnowIO\FredhopperDataModel\AttributeValueSet;
+use SnowIO\FredhopperDataModel\CategoryIdSet;
 use SnowIO\FredhopperDataModel\Product;
 
 class ProductTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $attributeValue = AttributeValue::of('no_of_pages', 33);
-        $attributeValueSet = AttributeValueSet::of([$attributeValue]);
-        $product = Product::of('an_v2783', ['books', 'fiction', 'sci_fi',])
+        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
+        $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
+        $product = Product::of('an_v2783', $categoryIds)
             ->withAttributeValues($attributeValueSet)
             ->withTimestamp(1506951117);
-        self::assertEquals('an_v2783', $product->getId());
-        self::assertEquals(['books', 'fiction', 'sci_fi',], $product->getCategoryIds());
-        self::assertEquals(1506951117, $product->getTimestamp());
-        self::assertEquals([$attributeValue], iterator_to_array($product->getAttributeValues()));
+        self::assertSame('an_v2783', $product->getId());
+        self::assertSame($categoryIds, $product->getCategoryIds());
+        self::assertSame(1506951117, $product->getTimestamp());
+        self::assertSame($attributeValueSet, $product->getAttributeValues());
     }
 
     /**
@@ -28,14 +29,14 @@ class ProductTest extends TestCase
      */
     public function testInvalidProductId()
     {
-        Product::of('$0i0ifjgo', ['books', 'fiction', 'sci_fi',]);
+        Product::of('$0i0ifjgo', CategoryIdSet::of(['books', 'fiction', 'sci_fi']));
     }
 
     public function testToJson()
     {
-        $attributeValue = AttributeValue::of('no_of_pages', 33);
-        $attributeValueSet = AttributeValueSet::of([$attributeValue]);
-        $product = Product::of('an_v2783', ['books', 'fiction', 'sci_fi',])
+        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
+        $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
+        $product = Product::of('an_v2783', $categoryIds)
             ->withTimestamp(1506951117)
             ->withAttributeValues($attributeValueSet);
         self::assertEquals([
@@ -54,5 +55,16 @@ class ProductTest extends TestCase
     {
         $attributeId = Product::sanitizeId('product#01-38927');
         self::assertEquals('product_01_38927', $attributeId);
+    }
+
+    public function testEquals()
+    {
+        $product1 = Product::of('foo', CategoryIdSet::of(['bar', 'baz']))
+            ->withAttributeValue(AttributeValue::of('colour', 'red'));
+        $product2 = Product::of('foo', CategoryIdSet::of(['bar', 'baz']))
+            ->withAttributeValue(AttributeValue::of('colour', 'red'));
+        self::assertTrue($product1->equals($product2));
+        $product3 = $product1->withCategoryId('wibble');
+        self::assertFalse($product1->equals($product3));
     }
 }

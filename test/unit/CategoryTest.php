@@ -2,25 +2,23 @@
 namespace SnowIO\FredhopperDataModel\Test;
 
 use SnowIO\FredhopperDataModel\Category;
+use SnowIO\FredhopperDataModel\LocalizedStringSet;
 
 class CategoryTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
     {
-        $category = Category::of('category01', [
-            'en_GB' => 'Category 01',
-            'fr_FR' => 'Catégorie 01',
-        ])->withTimestamp(1506951117);
+        $categoryNames = LocalizedStringSet::create()
+            ->withValue('Category 01', 'en_GB')
+            ->withValue('Catégorie 01', 'fr_FR');
+        $category = Category::of('category01', $categoryNames)->withTimestamp(1506951117);
 
-        self::assertEquals('category01', $category->getId());
-        self::assertEquals(null, $category->getName('de_DE'));
-        self::assertEquals(null, $category->getParentId());
-        self::assertEquals(1506951117, $category->getTimestamp());
-        self::assertEquals([
-            'en_GB' => 'Category 01',
-            'fr_FR' => 'Catégorie 01',
-        ], $category->getNames());
+        self::assertSame('category01', $category->getId());
+        self::assertSame(null, $category->getName('de_DE'));
+        self::assertSame(null, $category->getParentId());
+        self::assertSame(1506951117, $category->getTimestamp());
+        self::assertSame($categoryNames, $category->getNames());
     }
 
     /**
@@ -29,10 +27,10 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidCategoryId()
     {
-        Category::of('01cat', [
-            'en_GB' => 'Category 01',
-            'fr_FR' => 'Catégorie 01',
-        ]);
+        $categoryNames = LocalizedStringSet::create()
+            ->withValue('Category 01', 'en_GB')
+            ->withValue('Catégorie 01', 'fr_FR');
+        Category::of('01cat', $categoryNames);
     }
 
     /**
@@ -41,19 +39,19 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidParentId()
     {
-        $category = Category::of('category01', [
-            'en_GB' => 'Category 01',
-            'fr_FR' => 'Catégorie 01',
-        ]);
+        $categoryNames = LocalizedStringSet::create()
+            ->withValue('Category 01', 'en_GB')
+            ->withValue('Catégorie 01', 'fr_FR');
+        $category = Category::of('category01', $categoryNames);
         $category->withParent('02cat');
     }
 
     public function testToJson()
     {
-        $category = Category::of('category01', [
-            'en_GB' => 'Category 01',
-            'fr_FR' => 'Catégorie 01',
-        ]);
+        $categoryNames = LocalizedStringSet::create()
+            ->withValue('Category 01', 'en_GB')
+            ->withValue('Catégorie 01', 'fr_FR');
+        $category = Category::of('category01', $categoryNames);
         $category = $category->withParent('category02');
         $category = $category->withTimestamp(1506951117);
         self::assertEquals([

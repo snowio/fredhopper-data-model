@@ -7,6 +7,9 @@ class Variant extends Item
     {
         Product::validateId($productId);
         $variant = new self($id);
+        if ($id === $productId) {
+            throw new \Error('variant_id and product_id must not be the same.');
+        }
         $variant->productId = $productId;
         return $variant;
     }

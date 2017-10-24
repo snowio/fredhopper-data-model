@@ -26,11 +26,31 @@ abstract class Item extends Entity
         return $this->attributeValues;
     }
 
+    /**
+     * @return static
+     */
     public function withAttributeValues(AttributeValueSet $attributeValues): self
     {
         $item = clone $this;
         $item->attributeValues = $attributeValues;
         return $item;
+    }
+
+    /**
+     * @return static
+     */
+    public function withAttributeValue(AttributeValue $attributeValue): self
+    {
+        $item = clone $this;
+        $item->attributeValues = $this->attributeValues->with($attributeValue);
+        return $item;
+    }
+
+    public function equals($other): bool
+    {
+        return $other instanceof Item
+            && $this->id === $other->id
+            && $this->attributeValues->equals($other->attributeValues);
     }
 
     public function toJson(): array
