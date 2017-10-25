@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace SnowIO\FredhopperDataModel;
 
 use function SnowIO\FredhopperDataModel\Internal\sanitizeId;
