@@ -55,7 +55,7 @@ final class InternationalizedString implements \IteratorAggregate
     /** @var LocalizedString[] */
     private $items = [];
 
-    private function getKey(LocalizedString $localizedString): string
+    private static function getKey(LocalizedString $localizedString): string
     {
         return $localizedString->getLocale();
     }
