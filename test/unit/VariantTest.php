@@ -67,4 +67,16 @@ class VariantTest extends TestCase
     {
         VariantData::of('foo', 'foo');
     }
+
+    public function testEquals()
+    {
+        $product1 = VariantData::of('foo', 'bar')
+            ->withAttributeValue(AttributeValue::of('colour', 'red'));
+        $product2 = VariantData::of('foo', 'bar')
+            ->withAttributeValue(AttributeValue::of('colour', 'red'));
+        self::assertTrue($product1->equals($product2));
+        $product3 = VariantData::of('foo', 'baz')
+            ->withAttributeValue(AttributeValue::of('colour', 'red'));
+        self::assertFalse($product1->equals($product3));
+    }
 }

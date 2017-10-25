@@ -20,6 +20,13 @@ final class VariantData extends ItemData
         return $this->productId;
     }
 
+    public function equals($other): bool
+    {
+        return $other instanceof VariantData
+            && parent::equals($other)
+            && $this->productId === $other->productId;
+    }
+
     public function toJson(): array
     {
         $json = parent::toJson();
