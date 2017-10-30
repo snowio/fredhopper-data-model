@@ -25,7 +25,7 @@ final class CategoryData
 
     public static function validateId(string $id): void
     {
-        if (!\preg_match('{^[a-z][a-z0-9_]+$}', $id)) {
+        if (!\preg_match('{^[a-z][a-z0-9]+$}', $id)) {
             throw new FredhopperDataException('Invalid Id');
         }
     }
