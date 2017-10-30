@@ -36,6 +36,25 @@ trait SetTrait
         return $result;
     }
 
+    public function merge(self $otherSet): self
+    {
+        $result = new self;
+        $result->items = \array_merge($this->items, $otherSet->items);
+        return $result;
+    }
+
+    public function diff(self $otherSet): self
+    {
+        $result = new self;
+        foreach ($this->items as $key => $item) {
+            $otherItem = $otherSet->items[$key] ?? null;
+            if (!isset($otherItem) || !self::itemsAreEqual($item, $otherItem)) {
+                $result[$key] = $item;
+            }
+        }
+        return $result;
+    }
+
     public function overlaps(self $otherSet): bool
     {
         foreach ($this->items as $key => $item) {
