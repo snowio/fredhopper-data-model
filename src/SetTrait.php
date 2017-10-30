@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace SnowIO\FredhopperDataModel\Internal;
-
-use SnowIO\FredhopperDataModel\FredhopperDataException;
+namespace SnowIO\FredhopperDataModel;
 
 trait SetTrait
 {

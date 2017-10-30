@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace SnowIO\FredhopperDataModel;
 
-use SnowIO\FredhopperDataModel\Internal\SetTrait;
-
 final class AttributeValueSet implements \IteratorAggregate
 {
     use SetTrait;
