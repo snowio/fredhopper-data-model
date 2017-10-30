@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace SnowIO\FredhopperDataModel;
 
-final class CategoryIdSet
+final class CategoryIdSet implements \IteratorAggregate
 {
     use SetTrait {
         overlaps as private;

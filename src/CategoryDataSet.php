@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-final class CategoryDataSet
+final class CategoryDataSet implements \IteratorAggregate
 {
     use SetTrait;
 

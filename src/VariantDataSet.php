@@ -1,7 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
-final class VariantDataSet
+final class VariantDataSet implements \IteratorAggregate
 {
     use SetTrait;
 
