@@ -31,6 +31,7 @@ final class CategoryIdSet
 
     private static function getKey(string $categoryId): string
     {
+        CategoryData::validateId($categoryId);
         return $categoryId;
     }
 }
