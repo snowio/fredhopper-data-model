@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\DeleteAttributeOptionCommand;
 use SnowIO\FredhopperDataModel\Command\SaveAttributeOptionCommand;
 
 final class AttributeOptionSet implements \IteratorAggregate
@@ -20,6 +21,14 @@ final class AttributeOptionSet implements \IteratorAggregate
     {
         return \array_map(function (AttributeOption $attributeOption) use ($timestamp) {
             return SaveAttributeOptionCommand::of($attributeOption)->withTimestamp($timestamp);
+        }, $this->items);
+    }
+
+    public function mapToDeleteCommands(float $timestamp): array
+    {
+        return \array_map(function (AttributeOption $attributeOption) use ($timestamp) {
+            return DeleteAttributeOptionCommand::of($attributeOption->getAttributeId(), $attributeOption->getValueId())
+                ->withTimestamp($timestamp);
         }, $this->items);
     }
 

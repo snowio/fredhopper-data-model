@@ -1,6 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\DeleteProductCommand;
 use SnowIO\FredhopperDataModel\Command\SaveProductCommand;
 
 final class ProductDataSet implements \IteratorAggregate
@@ -18,6 +19,13 @@ final class ProductDataSet implements \IteratorAggregate
     {
         return \array_map(function (ProductData $productData) use ($timestamp) {
             return SaveProductCommand::of($productData)->withTimestamp($timestamp);
+        }, $this->items);
+    }
+
+    public function mapToDeleteCommands(float $timestamp): array
+    {
+        return \array_map(function (ProductData $productData) use ($timestamp) {
+            return DeleteProductCommand::of($productData->getId())->withTimestamp($timestamp);
         }, $this->items);
     }
 

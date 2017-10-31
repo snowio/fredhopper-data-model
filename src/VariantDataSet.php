@@ -1,6 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\DeleteVariantCommand;
 use SnowIO\FredhopperDataModel\Command\SaveVariantCommand;
 
 final class VariantDataSet implements \IteratorAggregate
@@ -18,6 +19,13 @@ final class VariantDataSet implements \IteratorAggregate
     {
         return \array_map(function (VariantData $variantData) use ($timestamp) {
             return SaveVariantCommand::of($variantData)->withTimestamp($timestamp);
+        }, $this->items);
+    }
+
+    public function mapToDeleteCommands(float $timestamp): array
+    {
+        return \array_map(function (VariantData $variantData) use ($timestamp) {
+            return DeleteVariantCommand::of($variantData->getId())->withTimestamp($timestamp);
         }, $this->items);
     }
 

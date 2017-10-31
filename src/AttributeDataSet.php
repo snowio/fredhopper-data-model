@@ -1,6 +1,7 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\DeleteAttributeCommand;
 use SnowIO\FredhopperDataModel\Command\SaveAttributeCommand;
 
 final class AttributeDataSet implements \IteratorAggregate
@@ -18,6 +19,13 @@ final class AttributeDataSet implements \IteratorAggregate
     {
         return \array_map(function (AttributeData $attributeData) use ($timestamp) {
             return SaveAttributeCommand::of($attributeData)->withTimestamp($timestamp);
+        }, $this->items);
+    }
+
+    public function mapToDeleteCommands(float $timestamp): array
+    {
+        return \array_map(function (AttributeData $attributeData) use ($timestamp) {
+            return DeleteAttributeCommand::of($attributeData->getId())->withTimestamp($timestamp);
         }, $this->items);
     }
 
