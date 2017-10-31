@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\SaveAttributeOptionCommand;
+
 final class AttributeOptionSet implements \IteratorAggregate
 {
     use SetTrait;
@@ -12,6 +14,13 @@ final class AttributeOptionSet implements \IteratorAggregate
         $key = self::getKey($attributeOption);
         $result->items[$key] = $attributeOption;
         return $result;
+    }
+
+    public function mapToSaveCommands(int $timestamp): array
+    {
+        return \array_map(function (AttributeOption $attributeOption) use ($timestamp) {
+            return SaveAttributeOptionCommand::of($attributeOption)->withTimestamp($timestamp);
+        }, $this->items);
     }
 
     private static function getKey(AttributeOption $attributeOption): string

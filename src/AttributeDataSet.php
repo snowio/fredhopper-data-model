@@ -1,6 +1,8 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\SaveAttributeCommand;
+
 final class AttributeDataSet implements \IteratorAggregate
 {
     use SetTrait;
@@ -10,6 +12,13 @@ final class AttributeDataSet implements \IteratorAggregate
         $result = clone $this;
         $result->items[$attributeData->getId()] = $attributeData;
         return $result;
+    }
+
+    public function mapToSaveCommands(int $timestamp): array
+    {
+        return \array_map(function (AttributeData $attributeData) use ($timestamp) {
+            return SaveAttributeCommand::of($attributeData)->withTimestamp($timestamp);
+        }, $this->items);
     }
 
     private static function getKey(AttributeData $attributeData): string

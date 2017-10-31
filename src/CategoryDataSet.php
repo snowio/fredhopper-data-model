@@ -1,6 +1,8 @@
 <?php
 namespace SnowIO\FredhopperDataModel;
 
+use SnowIO\FredhopperDataModel\Command\SaveCategoryCommand;
+
 final class CategoryDataSet implements \IteratorAggregate
 {
     use SetTrait;
@@ -10,6 +12,13 @@ final class CategoryDataSet implements \IteratorAggregate
         $result = clone $this;
         $result->items[$categoryData->getId()] = $categoryData;
         return $result;
+    }
+
+    public function mapToSaveCommands(int $timestamp): array
+    {
+        return \array_map(function (CategoryData $categoryData) use ($timestamp) {
+            return SaveCategoryCommand::of($categoryData)->withTimestamp($timestamp);
+        }, $this->items);
     }
 
     private static function getKey(CategoryData $categoryData): string
