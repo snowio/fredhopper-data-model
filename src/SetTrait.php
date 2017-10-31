@@ -35,6 +35,39 @@ trait SetTrait
     /**
      * @return static
      */
+    public function filter(callable $predicate): self
+    {
+        $result = new self;
+        $result->items = \array_filter($this->items, $predicate);
+        return $result;
+    }
+
+    /**
+     * @return static
+     */
+    public function map(callable $fn): self
+    {
+        $items = \array_map($fn, $this->items);
+        return self::of($items);
+    }
+
+    /**
+     * @return static
+     */
+    public function flatMap(callable $fn): self
+    {
+        $mappedItems = [];
+        foreach ($this->items as $item) {
+            foreach ($fn($item) as $mappedItem) {
+                $mappedItems[] = $mappedItem;
+            }
+        }
+        return self::of($mappedItems);
+    }
+
+    /**
+     * @return static
+     */
     public function add(self $otherSet): self
     {
         if ($otherSet->overlaps($this)) {
