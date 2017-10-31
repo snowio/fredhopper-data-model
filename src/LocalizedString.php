@@ -23,6 +23,11 @@ final class LocalizedString
         return $this->locale;
     }
 
+    public function internationalize(): InternationalizedString
+    {
+        return InternationalizedString::create()->with($this);
+    }
+
     public function equals($object): bool
     {
         return $object instanceof LocalizedString
