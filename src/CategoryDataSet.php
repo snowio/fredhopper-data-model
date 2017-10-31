@@ -14,7 +14,7 @@ final class CategoryDataSet implements \IteratorAggregate
         return $result;
     }
 
-    public function mapToSaveCommands(int $timestamp): array
+    public function mapToSaveCommands(float $timestamp): array
     {
         return \array_map(function (CategoryData $categoryData) use ($timestamp) {
             return SaveCategoryCommand::of($categoryData)->withTimestamp($timestamp);

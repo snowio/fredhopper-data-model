@@ -4,16 +4,15 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 abstract class Command
 {
-    public function getTimestamp(): ?int
+    public function getTimestamp(): ?float
     {
         return $this->timestamp;
     }
 
     /**
-     * @param int $timestamp
      * @return static
      */
-    public function withTimestamp(int $timestamp)
+    public function withTimestamp(float $timestamp)
     {
         $entity = clone $this;
         $entity->timestamp = $timestamp;

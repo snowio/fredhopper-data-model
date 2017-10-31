@@ -14,7 +14,7 @@ final class VariantDataSet implements \IteratorAggregate
         return $result;
     }
 
-    public function mapToSaveCommands(int $timestamp): array
+    public function mapToSaveCommands(float $timestamp): array
     {
         return \array_map(function (VariantData $variantData) use ($timestamp) {
             return SaveVariantCommand::of($variantData)->withTimestamp($timestamp);

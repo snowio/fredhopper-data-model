@@ -14,7 +14,7 @@ final class AttributeDataSet implements \IteratorAggregate
         return $result;
     }
 
-    public function mapToSaveCommands(int $timestamp): array
+    public function mapToSaveCommands(float $timestamp): array
     {
         return \array_map(function (AttributeData $attributeData) use ($timestamp) {
             return SaveAttributeCommand::of($attributeData)->withTimestamp($timestamp);

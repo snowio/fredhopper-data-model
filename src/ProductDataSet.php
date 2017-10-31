@@ -14,7 +14,7 @@ final class ProductDataSet implements \IteratorAggregate
         return $result;
     }
 
-    public function mapToSaveCommands(int $timestamp): array
+    public function mapToSaveCommands(float $timestamp): array
     {
         return \array_map(function (ProductData $productData) use ($timestamp) {
             return SaveProductCommand::of($productData)->withTimestamp($timestamp);

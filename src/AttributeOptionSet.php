@@ -16,7 +16,7 @@ final class AttributeOptionSet implements \IteratorAggregate
         return $result;
     }
 
-    public function mapToSaveCommands(int $timestamp): array
+    public function mapToSaveCommands(float $timestamp): array
     {
         return \array_map(function (AttributeOption $attributeOption) use ($timestamp) {
             return SaveAttributeOptionCommand::of($attributeOption)->withTimestamp($timestamp);
