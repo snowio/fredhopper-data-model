@@ -4,6 +4,9 @@ namespace SnowIO\FredhopperDataModel;
 
 trait SetTrait
 {
+    /**
+     * @return static
+     */
     public static function of(array $items): self
     {
         $set = new self;
@@ -21,11 +24,17 @@ trait SetTrait
         return $set;
     }
 
+    /**
+     * @return static
+     */
     public static function create(): self
     {
         return new self;
     }
 
+    /**
+     * @return static
+     */
     public function add(self $otherSet): self
     {
         if ($otherSet->overlaps($this)) {
@@ -36,6 +45,9 @@ trait SetTrait
         return $result;
     }
 
+    /**
+     * @return static
+     */
     public function merge(self $otherSet): self
     {
         $result = new self;
@@ -43,6 +55,9 @@ trait SetTrait
         return $result;
     }
 
+    /**
+     * @return static
+     */
     public function diff(self $otherSet): self
     {
         $result = new self;
