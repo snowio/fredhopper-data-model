@@ -36,7 +36,7 @@ final class AttributeValue
         return $this->locale;
     }
 
-    public function withLocale(string $locale): self
+    public function withLocale(?string $locale): self
     {
         Locale::validate($locale);
         $attributeValue = clone $this;
