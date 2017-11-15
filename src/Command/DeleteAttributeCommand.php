@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 use SnowIO\FredhopperDataModel\AttributeData;
 
-class DeleteAttributeCommand extends Command
+final class DeleteAttributeCommand extends Command
 {
     public static function of(string $attributeId)
     {

@@ -5,7 +5,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 use SnowIO\FredhopperDataModel\AttributeData;
 use SnowIO\FredhopperDataModel\AttributeOption;
 
-class DeleteAttributeOptionCommand extends Command
+final class DeleteAttributeOptionCommand extends Command
 {
     public static function of(string $attributeId, string $valueId): self
     {

@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 use SnowIO\FredhopperDataModel\ProductData;
 
-class DeleteProductCommand extends Command
+final class DeleteProductCommand extends Command
 {
     public static function of(string $productId)
     {

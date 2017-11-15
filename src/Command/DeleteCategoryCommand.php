@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 use SnowIO\FredhopperDataModel\CategoryData;
 
-class DeleteCategoryCommand extends Command
+final class DeleteCategoryCommand extends Command
 {
     public static function of(string $categoryId)
     {

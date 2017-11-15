@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 use SnowIO\FredhopperDataModel\VariantData;
 
-class SaveVariantCommand extends Command
+final class SaveVariantCommand extends Command
 {
     public static function of(VariantData $variantData): self
     {

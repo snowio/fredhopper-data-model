@@ -4,7 +4,7 @@ namespace SnowIO\FredhopperDataModel\Command;
 
 use SnowIO\FredhopperDataModel\VariantData;
 
-class DeleteVariantCommand extends Command
+final class DeleteVariantCommand extends Command
 {
     public static function of(string $variantId)
     {
