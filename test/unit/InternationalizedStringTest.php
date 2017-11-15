@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SnowIO\FredhopperDataModel\LocalizedString;
 use SnowIO\FredhopperDataModel\InternationalizedString;
 
-class LocalizedStringSetTest extends TestCase
+class InternationalizedStringTest extends TestCase
 {
     public function testEmptySetBehavesCorrectly()
     {

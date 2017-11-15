@@ -9,11 +9,11 @@ use SnowIO\FredhopperDataModel\AttributeValueSet;
 use SnowIO\FredhopperDataModel\CategoryIdSet;
 use SnowIO\FredhopperDataModel\ProductData;
 
-class ProductTest extends TestCase
+class ProductDataTest extends TestCase
 {
     public function testObjectInitialisation()
     {
-        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
+        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'scifi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
         $product = ProductData::of('an_v2783')
             ->withCategoryIds($categoryIds)
@@ -29,12 +29,12 @@ class ProductTest extends TestCase
      */
     public function testInvalidProductId()
     {
-        ProductData::of('$0i0ifjgo', CategoryIdSet::of(['books', 'fiction', 'sci_fi']));
+        ProductData::of('$0i0ifjgo', CategoryIdSet::of(['books', 'fiction', 'scifi']));
     }
 
     public function testToJson()
     {
-        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'sci_fi']);
+        $categoryIds = CategoryIdSet::of(['books', 'fiction', 'scifi']);
         $attributeValueSet = AttributeValueSet::create()->with(AttributeValue::of('no_of_pages', 33));
         $product = ProductData::of('an_v2783')
             ->withCategoryIds($categoryIds)
@@ -42,7 +42,7 @@ class ProductTest extends TestCase
         self::assertEquals([
             'product_id' => 'an_v2783',
             'category_ids' => [
-                'books', 'fiction', 'sci_fi',
+                'books', 'fiction', 'scifi',
             ],
             'attribute_values' => [
                 'no_of_pages' => 33,

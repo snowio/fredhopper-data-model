@@ -7,7 +7,7 @@ use SnowIO\FredhopperDataModel\AttributeValue;
 use SnowIO\FredhopperDataModel\AttributeValueSet;
 use SnowIO\FredhopperDataModel\VariantData;
 
-class VariantTest extends TestCase
+class VariantDataTest extends TestCase
 {
     public function testObjectInitialisation()
     {

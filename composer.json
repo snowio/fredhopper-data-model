@@ -8,5 +8,11 @@
         "psr-4": {
             "SnowIO\\FredhopperDataModel\\": "src"
         }
+    },
+    "autoload-dev": {
+        "files": ["src/Internal/functions.php"],
+        "psr-4": {
+            "SnowIO\\FredhopperDataModel\\Test\\": "test/unit"
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace SnowIO\FredhopperDataModel\Test;
 use SnowIO\FredhopperDataModel\CategoryData;
 use SnowIO\FredhopperDataModel\InternationalizedString;
 
-class CategoryTest extends \PHPUnit\Framework\TestCase
+class CategoryDataTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()

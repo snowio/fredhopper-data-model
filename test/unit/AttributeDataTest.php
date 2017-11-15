@@ -6,7 +6,7 @@ use Exception;
 use SnowIO\FredhopperDataModel\AttributeData;
 use SnowIO\FredhopperDataModel\InternationalizedString;
 
-class AttributeTest extends \PHPUnit\Framework\TestCase
+class AttributeDataTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testObjectInitialisation()
